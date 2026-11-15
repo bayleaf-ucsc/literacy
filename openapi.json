@@ -1,0 +1,52 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI Literacy for the LLM Age: example door",
+    "version": "0.1.0",
+    "summary": "A pedagogical stub, not a real service.",
+    "description": "This file is a pedagogical stub. It demonstrates the kind of machine-readable door the essay at https://literacy.bayleaf.dev/ discusses: a formal description that a program can use directly, with no LLM needed. There is no server logic behind it. Its one operation fetches a static JSON file. For what the essay is and how agents should help, read https://literacy.bayleaf.dev/llms.txt."
+  },
+  "servers": [
+    { "url": "https://literacy.bayleaf.dev" }
+  ],
+  "paths": {
+    "/api/ping.json": {
+      "get": {
+        "operationId": "getPing",
+        "summary": "Fetch a static greeting",
+        "description": "Returns a fixed JSON file. Nothing is computed, logged or stored by this operation beyond what any static web server does.",
+        "responses": {
+          "200": {
+            "description": "The static greeting.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Ping" },
+                "example": {
+                  "ok": true,
+                  "message": "Hello from AI Literacy for the LLM Age.",
+                  "note": "This is a static stub, not a live service. It exists to show what an openapi.json describes.",
+                  "llms_txt": "https://literacy.bayleaf.dev/llms.txt"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ping": {
+        "type": "object",
+        "required": ["ok", "message", "note", "llms_txt"],
+        "additionalProperties": false,
+        "properties": {
+          "ok": { "type": "boolean", "const": true, "description": "Always true." },
+          "message": { "type": "string", "description": "A short greeting." },
+          "note": { "type": "string", "description": "Says that this is a static stub." },
+          "llms_txt": { "type": "string", "format": "uri", "description": "Where to read about the essay and how agents should help." }
+        }
+      }
+    }
+  }
+}

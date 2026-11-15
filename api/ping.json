@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "message": "Hello from AI Literacy for the LLM Age.",
+  "note": "This is a static stub, not a live service. It exists to show what an openapi.json describes.",
+  "llms_txt": "https://literacy.bayleaf.dev/llms.txt"
+}

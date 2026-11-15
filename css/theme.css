@@ -1,0 +1,57 @@
+/*
+ * Literacy theme: every visual decision lives in these custom properties.
+ * Restyle the whole site (including explorables, whose shadow roots inherit
+ * these variables) by overriding tokens here or in a [data-theme] block.
+ *
+ * Contrast: text tokens are chosen for WCAG 2.1 AA on --lit-bg in both
+ * schemes (thread colors measured against their own tint backgrounds too).
+ */
+:root {
+  --lit-bg: #fbfaf7;
+  --lit-surface: #ffffff;
+  --lit-surface-2: #f2f0ea;
+  --lit-fg: #222222;
+  --lit-muted: #5c5c5c;
+  --lit-border: #d9d5cc;
+
+  /* The three threads. */
+  --lit-teach: #2a5298;   /* BayLeaf blue: direct teaching */
+  --lit-work: #1e5a3a;    /* BayLeaf green: predictions and explorables */
+  --lit-argue: #9a3412;   /* rust: the mounting argument */
+  --lit-teach-tint: #eef2fa;
+  --lit-work-tint: #ecf4ef;
+  --lit-argue-tint: #fbf0ea;
+
+  --lit-good: #1e5a3a;
+  --lit-bad: #9b1c1c;
+
+  --lit-font-body: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --lit-font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* The argument's own voice: a typewritten pamphlet. */
+  --lit-font-argue: "American Typewriter", "Courier Prime", "Courier New", ui-monospace, monospace;
+  --lit-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --lit-radius: 6px;
+  --lit-measure: 40rem;   /* teaching column */
+  --lit-margin: 17rem;    /* argument column */
+  --lit-gap: 2.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --lit-bg: #16171a;
+    --lit-surface: #1e2024;
+    --lit-surface-2: #26292e;
+    --lit-fg: #e8e6e1;
+    --lit-muted: #a9a59c;
+    --lit-border: #3a3d43;
+    --lit-teach: #8fb0ef;
+    --lit-work: #7fcb9f;
+    --lit-argue: #f0a27a;
+    --lit-teach-tint: #1d2433;
+    --lit-work-tint: #1a2a21;
+    --lit-argue-tint: #2e2019;
+    --lit-good: #7fcb9f;
+    --lit-bad: #f19a9a;
+  }
+}

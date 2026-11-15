@@ -1,0 +1,2 @@
+# Copy to .dev.vars for local work. The essay is static and needs no secrets.
+CLOUDFLARE_ACCOUNT_ID=

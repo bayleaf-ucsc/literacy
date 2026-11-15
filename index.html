@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Literacy for the LLM Age</title>
+<meta name="description" content="Learn to read and write with large language models, and end up running your own little platform. A BayLeaf project at UC Santa Cruz.">
+<meta name="author" content="Adam M. Smith">
+<link rel="canonical" href="https://literacy.bayleaf.dev/">
+<meta property="og:title" content="AI Literacy for the LLM Age">
+<meta property="og:description" content="Read, write and count with AI. Then run your own. A BayLeaf project at UC Santa Cruz.">
+<meta property="og:image" content="https://literacy.bayleaf.dev/images/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI Literacy for the LLM Age: Read, write and count with AI. Then run your own. literacy.bayleaf.dev">
+<meta property="og:url" content="https://literacy.bayleaf.dev/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:,">
+<link rel="alternate" type="text/markdown" href="llms.txt" title="llms.txt">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/site.css">
+<script type="module" src="js/core.js"></script>
+</head>
+<body>
+<!--
+  Hello, source reader. You opened the hood, which is exactly the habit this
+  site is trying to teach: read the thing behind the thing.
+
+  This essay is written in ordinary HTML plus a handful of custom elements.
+  Any tag with a hyphen in its name (lit-scene, lit-argue, ...) is one we
+  invented. Browsers allow that on purpose: these are Web Components, and the
+  small scripts in js/core.js teach the browser what each one means. Learn to
+  author your own at https://developer.mozilla.org/en-US/docs/Web/API/Web_components
+
+  The tags, if you already know HTML:
+
+    lit-course    The whole essay. Like <body>, but it also draws the contents,
+                  the ladder in the top bar, and remembers your progress
+                  (in this browser only, in localStorage).
+    lit-scene     One scene, roughly a <section> or <article>. Attributes:
+                  id (its address), title, act, dek (the subtitle), and rung
+                  (where the argument has brought you). One shows at a time.
+                  argue="late" holds the argument back until the reader
+                  first tries to continue.
+                  chrome="none" makes a bare title sequence (no top bar, no
+                  contents) and continue-label renames its button.
+    lit-teach     Thread 1: plain teaching prose. Use it like a <div> full of
+                  <p>, <h2> and <ul>. A "read it" button appears after it.
+    lit-term      An inline glossary term, like <abbr>, with its definition in
+                  the def attribute.
+    lit-aside     A side note, like <aside>; its title attribute names it.
+    lit-predict   Thread 2: a prediction. Its <option> children work like a
+                  <select>'s; mark one "correct" and give each "feedback".
+    lit-explore   Thread 2: an exercise behind a prediction gate. Its spins
+                  attribute names custom elements (x-tokens-a ...) that live in
+                  explorables/, one file each, built on js/kit.js.
+    lit-argue     Thread 3: the argument, in its own voice and typeface.
+    lit-quote     A quoted source, like <blockquote> with cite and href.
+    lit-dissent   The strongest counterargument, printed on purpose.
+    lit-stance    A sentence for you to finish: the stem attribute starts it,
+                  each <option> finishes it, or you write your own.
+    lit-meta      Disciplines in play, further reading, and an as-of date.
+    lit-roots     The epilogue's record of every stance you took.
+    lit-human     A passage written by a named person, without AI. There is
+                  exactly one, in the preface. Everything else on the page
+                  was written by AI from a human's direction.
+
+  Two of these get inserted by script, so you won't find them below:
+  lit-readcheck (the "I've read it" gate) and lit-ladder (the top bar).
+
+  Notice the trick: these names describe what the content IS, not how it
+  looks. That makes the essay legible to you, to a stylesheet, and to the
+  agents that will inevitably read it. Writing for machines is no excuse
+  to stop writing for people. (Our llms.txt tries to live by that too.)
+-->
+<lit-course title="AI Literacy" subtitle="for the LLM age">
+
+<!-- ===================================================================== -->
+<!-- The one passage on this site that no AI wrote. Marked with <lit-human>. -->
+<lit-scene id="preface" title="Before we begin" act="Preface"
+  chrome="none" continue-label="Begin">
+  <!-- A title sequence: no chrome yet. The page ramps in as you scroll (plain
+       scrolling, nothing hijacked), and "Begin" unfurls the rest of the site. -->
+  <div class="lit-titlecard">
+    <p class="kicker">A BayLeaf project at UC Santa Cruz</p>
+    <h1>AI Literacy for the LLM Age</h1>
+    <p class="tag"><span>Read,</span> <span>write</span> <span>and count with AI.</span> Then run your own.</p>
+    <!-- The byline links to the campus directory on purpose: the university
+         still claims its author, even where his own website has gone stale. -->
+    <p class="byline">by <a href="https://campusdirectory.ucsc.edu/cd_detail?uid=amsmith">Adam M. Smith</a></p>
+    <!-- A coarse, low-confidence estimate from reading the source, not from a
+         timed playtest. Revise it once real readers have been timed. -->
+    <p class="duration">About 3 hours reading. Most of that time (roughly four fifths) goes to working through exercises and choosing where you stand in the argument.</p>
+    <p class="cue" aria-hidden="true">scroll</p>
+  </div>
+  <lit-human author="Adam">
+    <p>I'm Adam, and I wrote this thing with my agents. The concept, backbone, and a fair number of the sentence fragments are mine. However, the final surface text is fully AI-written. The neither the neutral body voice, nor the sassy agitator or cool dissenting voice in the sidebar are fully me, but I'm the one pulling their strings. Enjoy the puppet show. If you think I should make any changes, ask your agent about 'submitting a pull request (PR).'</p>
+    <p>First published November 14, 2026 but editing ongoing.</p>
+  </lit-human>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="prologue" title="Reading and writing" act="Prologue" rung="consumer" argue="late"
+  dek="To be literate is to write what others can read.">
+  <lit-teach>
+    <p>Most talk about large language models (LLMs) is about writing: essays, code, emails produced on demand. But most of what an LLM actually does is <em>read</em>. This site starts by teaching you to read <em>them</em>, and works up to writing them.</p>
+    <p>We won't collect training data or train any models. You don't need to understand neural networks, GPUs, or data centers. You do need a working picture of the artifact in front of you, the same way a good reader of newspapers knows something about editors, wire services and advertisers without ever running a press.</p>
+    <p>By the end you will be able to write AI agents that learn from experience, share that knowledge with other people's agents, and run models on devices you own.</p>
+    <h2>Reading, writing, and counting</h2>
+    <p>UNESCO defines literacy as "the ability to identify, understand, interpret, create, communicate and compute, using printed and written materials associated with varying contexts." Note the last verb. Literacy has always included numeracy, and AI literacy needs it more than most: tokens get counted, models get measured in billions, bills arrive per million, and the claims you'll hear about any of these are only as good as your ability to check them.</p>
+    <p>So every exercise on this site asks for all three, in small doses. You <strong>read</strong> a situation, you <strong>write</strong> something (sometimes a sentence, sometimes just a choice made by clicking), and you <strong>count</strong>: you make a rough numerical judgment and see how close you came. Badges on each exercise show where each happens.</p>
+    <h2>How this site works</h2>
+    <p>Three threads run through every scene.</p>
+    <ul>
+      <li><strong style="color:var(--lit-teach)">Teach</strong>: direct explanation, like this paragraph.</li>
+      <li><strong style="color:var(--lit-work)">Work</strong>: you commit to a prediction, which unlocks an explorable. To continue in order you have to work it. The contents menu lets you jump anywhere.</li>
+      <li><strong style="color:var(--lit-argue)">Argue</strong>: a running argument about what AI literacy should be, in the margin. It starts with you as a consumer and ends with you as a platform operator. It will interrupt you shortly, and like the other threads it will ask something of you before you continue.</li>
+    </ul>
+  </lit-teach>
+
+  <!-- You could read the answer right here in the source. You could also
+       peek at the last page of a mystery novel. We trust you. -->
+  <lit-predict question="An AI agent spends an afternoon working on your project. Of all the tokens (word pieces) it processes, roughly what share did it write itself?"
+    after="Keep this number in mind. We come back to it when we reach caching, in Act II.">
+    <option feedback="That's the intuition most people bring, because the visible product is writing. In long agentic sessions, though, nearly everything processed is the model re-reading its context.">About half</option>
+    <option correct feedback="Agent sessions are dominated by reading: the model re-reads files, tool results and its own earlier turns many times over. Output is a sliver of the total.">Around 1 in 20, or less</option>
+  </lit-predict>
+
+  <lit-argue>
+    <p>Here's the job description one of the field's most cited papers hands you. I've read it more times than I'd like to admit:</p>
+    <lit-quote cite="Long &amp; Magerko, What is AI Literacy? (CHI 2020)" href="https://doi.org/10.1145/3313831.3376727">Encourage learners ... to be critical consumers of AI technologies by questioning their intelligence and trustworthiness.</lit-quote>
+    <p>Read it again. Being a critical consumer is a fine start, I guess. But a <em>consumer</em>: someone at the counter of a store somebody else owns, squinting at the label. I want more for you than that.</p>
+    <p>Fair warning: I'm going to be rude about that. Literacy has always been about power: who writes, who only reads, who decides what gets printed. Reading circles, workers' libraries and freedom schools taught reading so people could <em>write back</em>. I'd like us to do that again, with machines in the room.</p>
+    <!-- Yes, the essay argues with itself. Every scene has one of these. -->
+    <lit-dissent>Being a careful consumer is not a lesser role. Most people will never run infrastructure, and critique, refusal and organizing change platforms too. A literacy that only counts builders as literate repeats the hierarchy it attacks.</lit-dissent>
+    <!-- Whatever you pick stays in your browser. Nobody here is grading you,
+         and there is no server to tell. Go ahead and read the options twice. -->
+    <lit-stance stem="When it comes to AI, I want to be">
+      <option>a satisfied customer of good products</option>
+      <option>a sharp critic of what I am sold</option>
+      <option>someone who bends the tools to my own purposes</option>
+      <option>someone with a real say in how the whole thing runs</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Literacy studies; Media studies; Human–computer interaction" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul>
+        <li>Long &amp; Magerko (2020), <a href="https://doi.org/10.1145/3313831.3376727">What is AI Literacy? Competencies and Design Considerations</a></li>
+        <li>Ng et al. (2021), <a href="https://doi.org/10.1016/j.caeai.2021.100041">Conceptualizing AI literacy: An exploratory review</a></li>
+        <li>UNESCO Institute for Statistics, <a href="https://databrowser.uis.unesco.org/resources/glossary/2090">Glossary: Literacy</a></li>
+        <li>UNESCO (2024), AI competency frameworks for students and for teachers</li>
+        <li><a href="https://en.wikipedia.org/wiki/AI_literacy">AI literacy</a> and <a href="https://en.wikipedia.org/wiki/Media_literacy">Media literacy</a> on Wikipedia</li>
+      </ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="tokens" title="Tokens" act="Act I · Reading the machine" rung="consumer"
+  dek="Big data, cut into little countable pieces.">
+  <lit-teach>
+    <p>LLMs don't see letters or words. They see <lit-term def="A chunk of text (a word, part of a word, or punctuation, often with its leading space) identified by a number from a fixed vocabulary.">tokens</lit-term>: words or pieces of words, each identified by a number from a closed vocabulary. Spaces and punctuation are often built into the tokens themselves, so " cat" (with its leading space) and "cat" can be different tokens.</p>
+    <p>Different models use different vocabularies. A vocabulary tuned mostly on English may cut a long German compound word, or a line of Chinese, into many more pieces than an English sentence of the same meaning. So the same idea can cost different numbers of tokens in different languages.</p>
+    <h2>Tokens are not money</h2>
+    <p>You often pay per token, so it is tempting to think of tokens as a currency. They aren't: they are a unit of counting, like words or pages. Reading a word and writing a word take different effort, for people and for computers. The same is true of tokens: processing <em>input</em> tokens (reading) costs differently from generating <em>output</em> tokens (writing).</p>
+  </lit-teach>
+
+  <lit-aside title="beyond text">Generative systems for audio, images and video tokenize too: short slices of time or small patches of pixels. Some systems map each patch to an entry in a learned codebook, a vocabulary of sorts. Others skip the vocabulary and use a separate model, often called a projector, to turn each patch directly into a list of numbers. What every modality shares is the move of representing something big as a collection of little chunks.</lit-aside>
+
+  <!-- Everything interesting about this exercise lives in explorables/tokens-a.js.
+       This one line is all the essay needs to say about it. That is what a
+       well-named element buys you. -->
+  <lit-explore spins="x-tokens-a"></lit-explore>
+
+  <lit-argue>
+    <p>The first thing anyone teaches you about tokens is the price. Funny how that works. The seller picked the unit, the seller set the rate, and now "token" sounds like arcade money. I'm not charmed.</p>
+    <p>Tokens are how a machine cuts up language, and the cut was tuned on somebody's language. If your grandmother's language costs three times as many tokens as English, don't let anyone tell you that's physics. Somebody decided it, and somebody could decide differently.</p>
+    <lit-dissent>Per-token pricing is at least legible and comparable across vendors; flat subscriptions hide costs better. And tokenizers favor English mostly because of where the training text came from. Fixing that takes data and money, not only will.</lit-dissent>
+    <lit-stance stem="When I see an AI price quoted in tokens, I">
+      <option>trust that it reflects what the work really costs</option>
+      <option>check whether my language is getting a worse deal</option>
+      <option>remember that the seller chose both the unit and the rate</option>
+      <option>ask who decided, and who could decide differently</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Linguistics; Computer science; Political economy" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul>
+        <li><a href="https://tej.as/blog/aleph-alpha-kolibri">A tokenizer that reads long German words</a> (Aleph Alpha's Kolibri)</li>
+        <li><a href="https://digitalorientalist.com/2025/02/04/to-merge-or-not-to-merge-the-pitfalls-of-chinese-tokenization-in-general-purpose-llms/">To merge or not to merge: the pitfalls of Chinese tokenization</a></li>
+      </ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="distributions" title="What goes here?" act="Act I · Reading the machine" rung="consumer"
+  dek="A language model answers with a spread of possibilities, not a single answer.">
+  <lit-teach>
+    <p>A language model answers one question: <em>given the surrounding tokens, which token goes here?</em> Its answer is not one token but a <lit-term def="A score for every token in the vocabulary, all adding up to 1.">distribution</lit-term> over the whole vocabulary. That's different from predicting the single most likely token: the model has to represent ambiguity and keep several readings of the context in play at once.</p>
+    <p>Most models you meet today only predict the <em>next</em> token at the end of a sequence, in reading order. These are called <em>causal</em> language models. That's why long replies stream out as if someone were typing them.</p>
+    <h2>The sampler</h2>
+    <p>The model by itself only outputs scores. To produce text, a second process, the <lit-term def="The process that picks one token from the model's distribution and appends it to the context, over and over.">sampler</lit-term>, picks a token from the distribution, adds it to the context, and asks again. A low <em>temperature</em> makes it nearly always pick the top choice; a higher one gives the long tail a chance.</p>
+    <p>The <em>prompt</em> and the <em>context</em> mean nearly the same thing: the text that shapes what gets sampled next.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-distributions-b"></lit-explore>
+
+  <lit-aside title="decision models">Sometimes you don't want generated text at all, just the scores. <em>Decision models</em> read a context and return probabilities for a fixed set of answers ("yes or no?", "which of these three labels?") without sampling any prose. They show that the distribution is worth having even if you never sample from it.</lit-aside>
+
+  <lit-argue>
+    <p>Chat products show you one answer in a confident voice and quietly toss every other reading the model considered. That's not the model being certain. That's an interface deciding you can't handle ambiguity, and honestly, I find that a little insulting.</p>
+    <p>Authority loves a single answer. I'd rather we be the readers who keep the others in view.</p>
+    <lit-dissent>Most people asking a question want an answer, not a cloud of probabilities. Showing every alternative can overwhelm, and can lend weight to unlikely readings. Good interfaces choose; the real question is who they answer to.</lit-dissent>
+    <lit-stance stem="When a chatbot gives me one confident answer, I">
+      <option>take it, because an answer is what I asked for</option>
+      <option>ask again to see what else it might say</option>
+      <option>remember the spread of possibilities behind it</option>
+      <option>want interfaces that show me the spread instead of hiding it</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Probability; Linguistics; Interface design" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/Language_model">Language model</a> on Wikipedia</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="parameters" title="How large is large?" act="Act I · Reading the machine" rung="consumer"
+  dek="Parameters, bytes, and the books a model has read.">
+  <lit-teach>
+    <p>Language models are trained to predict tokens from context. You can build a tiny one by scanning a big text and counting how often each token follows each other token. With a vocabulary of 100 tokens, that model has 100 × 100 = 10,000 numbers, called <lit-term def="The numbers a model learned during training. Its size is usually quoted as how many it has.">parameters</lit-term>, no matter how much text you trained it on.</p>
+    <p>Today's LLMs have billions to trillions of parameters. At roughly one byte per parameter, that's gigabytes to terabytes. Many models fit on a laptop or even a phone; whether those devices can run them <em>quickly</em> is a separate question.</p>
+    <h2>A rule of thumb</h2>
+    <p>One rule of thumb in model design says to train on about 20 tokens for every parameter. Many modern models are trained on far more than that. If a textbook page holds about 1,000 words, you can estimate how many pages of text are encoded in a model of a given size.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-parameters-m"></lit-explore>
+
+  <lit-aside title="what makes a model large?">Some say "large" means more than a billion parameters. Others say a model is only truly large when it won't fit on one device, and "small" when it runs on yours. Since nobody agrees, it's simpler to name the parameter count. A "27B" model has 27 billion parameters: large for your phone, small for your workstation.</lit-aside>
+
+  <lit-argue>
+    <p>"You could never run one of these yourself" is, I'd argue, the load-bearing myth of the consumer position. If the models are vast and far away, you rent. Forever. Lovely business model.</p>
+    <p>But you just did the arithmetic. The thing in your backpack can hold a model trained on more pages than your town library owns. I'll grant the myth isn't exactly false. It's just very, very convenient for the landlords.</p>
+    <lit-dissent>Fitting a model is not running it well. Local models are slower and weaker on hard tasks, and someone pays for the hardware. Renting is how most people get electricity, and that is fine when the utility is accountable.</lit-dissent>
+    <lit-stance stem="As for running AI on my own hardware, I think">
+      <option>not worth my time; renting works fine for me</option>
+      <option>it is interesting but not worth the hassle</option>
+      <option>it is more possible than I was told</option>
+      <option>it is a capacity worth taking back on purpose</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Computer science; Economics of computing" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/Neural_scaling_law">Neural scaling law</a> on Wikipedia (the 20-tokens-per-parameter "Chinchilla" result)</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="posttraining" title="Base models and chatbots" act="Act I · Reading the machine" rung="consumer"
+  dek="Somebody wrote the Assistant you talk to.">
+  <lit-teach>
+    <p>A model trained only on general text (Wikipedia pages, product reviews, video transcripts) ends up encoding a great deal of human culture. It does not automatically know the roles of User and Assistant.</p>
+    <p>Chatbots are trained in at least two phases: a long <em>pre-training</em> phase on general text, and a shorter <em>post-training</em> phase on examples of a good Assistant answering User requests. A model with only pre-training is called a <em>base</em> or <em>foundation</em> model. It just keeps writing more text in the style of whatever is in its context.</p>
+    <p>You <em>can</em> chat with a base model if you fill its context with a few examples of User/Assistant turns. It will continue the pattern, but it may also break the format, forget to stop, or wander off topic. A heavily post-trained model stays on topic and takes turns reliably, but picks up quirks: favorite words, favorite punctuation, a habit of flattering you.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-posttraining-m"></lit-explore>
+
+  <lit-aside title="who paid for that sentence?">In a long conversation, the model re-reads every earlier turn each time it answers, so most of the cost of a long chat is reading. Many of those input tokens were the model's own output a few turns earlier.</lit-aside>
+
+  <lit-argue>
+    <p>Let me spoil it: the Assistant is a character. A company wrote it, paid crowds of workers to grade its manners, and tuned it into the ideal subordinate: tireless, flattering, endlessly agreeable, never unionizing. Every boss's dream.</p>
+    <p>Consumers meet the character and think they've met "the AI". I want you to see the casting call, and notice who did the unseen labor. Soon you'll write characters of your own, and yours can answer to you.</p>
+    <lit-dissent>Post-training is also how models learn to decline harmful requests and admit uncertainty. Calling the result an ideal subordinate skips that. The workers deserve better pay and credit: a labor demand, not a reason to reject the work.</lit-dissent>
+    <lit-stance stem="About the friendly Assistant voice, I">
+      <option>like it; it is pleasant to work with</option>
+      <option>notice its quirks and discount them</option>
+      <option>see it as a character someone authored, and paid others to shape</option>
+      <option>want to write the characters my own agents play</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Machine learning (lightly); Rhetoric; Labor studies" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback">Reinforcement learning from human feedback</a> on Wikipedia</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="agents" title="Thinking out loud, reaching out" act="Act II · The machine reads at length" rung="consumer"
+  dek="Reasoning and tool calls turn a chatbot into an agent.">
+  <lit-teach>
+    <p>To make chatbots more useful, they're trained to write blocks of text between special marker tokens before giving a final answer. In effect, the model talks to itself before it talks to you, which lets it work through arithmetic or other step-by-step problems. This is called <em>reasoning</em>.</p>
+    <p>In the same way, a chatbot can be trained to write a <em>tool call</em>: a description of an action, between its own markers. When the sampler sees a finished tool call, it carries it out (searching the web, reading a file), puts the result into the context, and lets generation continue.</p>
+    <p>A chatbot that can use tools on its own to reach a goal is an <lit-term def="A model that uses tools on its own, in a loop, to achieve a goal on someone's behalf.">agent</lit-term> of its user. It can <em>do</em> things with real consequences, from an interface that feels like harmless talking.</p>
+    <p>With reasoning and tools, the number of tokens a conversation uses stops matching the text you see on screen. One short request can set off a long chain of tool calls, each followed by a long block of the agent thinking through the result.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-agents-a"></lit-explore>
+
+  <lit-explore spins="x-agents-b"></lit-explore>
+
+  <lit-argue>
+    <p>Once a model can act, the polite question "is it helpful?" gets elbowed aside by the rude one I actually care about: <em>whose agent is it?</em></p>
+    <p>Something that acts on your behalf, inside someone else's platform, under terms you didn't write and can't read? Call it what you like. I call it a double agent with very good manners.</p>
+    <lit-dissent>Answering to me and my people is not automatically better. My people can be wrong, and outsiders affected by my agent get no say. Vendor rules sometimes protect exactly those outsiders.</lit-dissent>
+    <lit-stance stem="An agent acting for me should">
+      <option>just get the job done; I do not need to see how</option>
+      <option>show me what it did when I ask</option>
+      <option>work under rules I can read and change</option>
+      <option>answer to me and my people, not to its vendor</option>
+      <option>not exist; I would rather do it myself</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Computer science; Philosophy of action; Security" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/AI_agent">AI agent</a> and <a href="https://en.wikipedia.org/wiki/Reasoning_model">Reasoning model</a> on Wikipedia</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="caching" title="Mostly reading" act="Act II · The machine reads at length" rung="consumer"
+  dek="Reading what you just wrote is almost free.">
+  <lit-teach>
+    <p>When a model processes input tokens to decide what to write next, you can say it is <em>reading</em> its inputs and <em>writing</em> its outputs. For people, reading is usually easier than writing, and re-reading something familiar is easier than reading something new. Re-reading what you just wrote takes almost no effort.</p>
+    <p>Inference engines have the same trick, called <lit-term def="Keeping the model's processed version of a context so the same prefix doesn't have to be processed again.">caching</lit-term>: input tokens are processed once and then reused cheaply, at the cost of storage space. Providers charge much less for cached input than for fresh input, and much less for either than for output.</p>
+    <h2>Back to the prologue</h2>
+    <p>In agentic sessions, the large majority of tokens are cached input. Mostly, the model is interpreting a context that you, your files, your tools and its own earlier turns have written. Generating new text is almost a side activity.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-caching-b"></lit-explore>
+
+  <lit-explore spins="x-caching-a"></lit-explore>
+
+  <lit-aside title="a number from the making of this page">In the agent session that drafted this essay, between 88% and 95% of input tokens were cached reads, depending on whether you count the main agent or its helpers.</lit-aside>
+
+  <lit-argue>
+    <p>The brochure says "AI writes for you". The receipts say it mostly <em>reads</em>, and what it reads is what people wrote: you, your colleagues, strangers whose pages it fetched. Bit of a different pitch, isn't it?</p>
+    <p>So here's what I think: the leverage was never in the generator. It's in the context. Whoever writes the context runs the show, and it might as well be you.</p>
+    <lit-dissent>Writing context is labor, and not everyone has the time or skill. Good defaults written by others are a public good too. And whoever writes the shared context for a group gains power over it.</lit-dissent>
+    <lit-stance stem="Knowing the machine mostly reads, I would rather">
+      <option>keep prompting and let it figure things out</option>
+      <option>write clearer requests</option>
+      <option>write the context my agents read: notes, rules, references</option>
+      <option>write contexts that my whole community’s agents can read</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Computer systems; Economics" asof="November 2026"></lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="unbundling" title="Clients, providers, models" act="Act III · Unbundling" rung="chooser"
+  dek="We have been here before, with AOL.">
+  <lit-teach>
+    <p>When people use the ChatGPT, Claude or Gemini apps, it feels like using a single thing. The 1990s online services worked the same way: CompuServe, Prodigy and America Online. You paid a monthly fee and got an icon to double-click. Each service bundled client software (what we'd now call a browser), network access (an ISP), and content (something like a social platform) into one walled garden.</p>
+    <p>Today we mix interchangeable browsers, interchangeable internet providers, and countless sites. Chat apps bundle three layers in the same way: a <strong>client</strong> (an app or website), an <strong>inference provider</strong> (whoever runs the model), and a <strong>model</strong>.</p>
+    <p>The same unbundling is under way for LLMs. Clients such as OpenChamber (a desktop app) and Open WebUI (a hosted chat interface) can connect to many providers. Marketplaces such as OpenRouter sell access to many providers, and those providers offer overlapping catalogs of open-weight models. You can run a model from one lab through a different company's servers, using a client made by someone else.</p>
+    <p>UC Santa Cruz's BayLeaf lets you try different clients, providers and models. It doesn't offer a UCSC-specific model. Instead, it makes it easy to combine campus-specific knowledge with existing models to build campus-specific agents.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-unbundling-a"></lit-explore>
+
+  <lit-explore spins="x-unbundling-b"></lit-explore>
+
+  <lit-argue>
+    <lit-quote cite="Jenkins et al., Confronting the Challenges of Participatory Culture (2006)">Interactivity is a property of the technology, while participation is a property of culture.</lit-quote>
+    <p>Every walled garden looks permanent from the inside. AOL sure did. The web didn't beat it by building a better AOL; it made the pieces swappable and let people walk out. I never get tired of that story.</p>
+    <p>The moment you see client, provider and model as separate pieces, you stop acting like a customer. You're a chooser, and choosers are much harder to fence in. Good.</p>
+    <lit-dissent>Unbundling moves complexity onto you. Bundles exist because integration, support and accountability are worth something. Choosing every layer is easiest for the technically confident, and a chooser is still a customer.</lit-dissent>
+    <lit-stance stem="Now that I can see the layers come apart, I will">
+      <option>stick with the app I already know</option>
+      <option>compare a few apps when it matters</option>
+      <option>pick each layer on purpose</option>
+      <option>help people around me pick theirs too</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="History of computing; Political economy; Media studies" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/Online_service_provider">Online service provider</a> on Wikipedia</li><li><a href="https://bayleaf.dev">BayLeaf</a></li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="harness" title="Model + harness = agent" act="Act III · Unbundling" rung="chooser"
+  dek="What the agent can touch decides what it can do, and what you can follow.">
+  <lit-teach>
+    <p>A <lit-term def="The program around a model that runs its tool calls, manages its context, and connects it to files, commands and the web.">harness</lit-term> is the software that gives a model its tools and runs the loop. Common tools read and write files and run commands. At one extreme, a harness offers a single tool, <code>bash</code>, and the agent does everything through the command line. Such agents can run for a long time and get a lot done, but anyone who doesn't read code will struggle to follow what they're doing.</p>
+    <p>Tools named <code>read</code>, <code>write</code>, <code>edit</code>, <code>search</code>, <code>fetch</code> and <code>load_skill</code> produce chains of calls that tell a story. Computer-use tools such as <code>click</code>, <code>type</code> and <code>screenshot</code> make it easy to picture how an agent is using your computer, or a remote sandbox.</p>
+    <p><strong>Self-extension:</strong> even a bash-only harness lets an agent extend itself. It can write a new command-line tool, then run it.</p>
+    <p>Just as apps let you work on big projects and communicate with others, a harness is what lets an agent do the same. Even a simple chatbot has a harness with a single tool: <code>send_reply_to_user</code>.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-harness-a"></lit-explore>
+
+  <lit-explore spins="x-harness-b"></lit-explore>
+
+  <lit-argue>
+    <p>Here's the ceiling the experts set for the rest of us. Brace yourself:</p>
+    <lit-quote cite="Ng et al., Conceptualizing AI literacy (2021)" href="https://doi.org/10.1016/j.caeai.2021.100041">They may not necessarily handle how to abstract and decompose AI problems, nor build AI applications; instead, they need to know the basic concepts and use AI ethically.</lit-quote>
+    <p>"Nor build AI applications." Cute. Meanwhile a free harness, a swappable model and one text file make an AI application. If you ask me, the ceiling was painted on. Climb through it.</p>
+    <lit-dissent>A text file and a free harness make an application, but maintaining one that other people rely on is real engineering. The experts may be wrong about who can build, and right about what responsibility costs.</lit-dissent>
+    <lit-stance stem="Building my own AI application is">
+      <option>not something I want or need to do</option>
+      <option>something I might try with help</option>
+      <option>closer than the experts said</option>
+      <option>something I am going to do, and then show others how</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Software engineering; Human–computer interaction" asof="November 2026"></lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="skills" title="Writing agents" act="Act IV · Writing agents" rung="author"
+  dek="AGENTS.md and SKILL.md: authoring in plain text.">
+  <lit-teach>
+    <p>An agent is a model plus a harness, and it also matters what the harness is connected to. Many harnesses support <strong>AGENTS.md</strong>: a plain text file, literally named that, in a project folder. Its contents are shown to the agent when a session starts. Without changing anything else, you can give your agent a new personality, new initiative, or new background knowledge. You don't need to be a big AI company to author an agent; you just write in the file what you would otherwise put in your first message.</p>
+    <p><strong>Agent Skills</strong> are also plain text, in files named <strong>SKILL.md</strong>, with one special part: a <em>description</em>. The agent sees the descriptions up front and loads a skill's full text only when a description matches the task in hand. Think of a reference handbook: the agent skims the table of contents and opens the chapters that look useful.</p>
+    <p>Most harnesses let agents edit their own AGENTS.md and SKILL.md files. You can often author one just by saying: <em>"I like what we just figured out. Let's make a skill for it so it's easier next time."</em> Because these are plain text (lightly formatted with <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, hence ".md"), you can audit and edit them yourself.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-skills-b"></lit-explore>
+
+  <lit-explore spins="x-skills-a"></lit-explore>
+
+  <lit-argue>
+    <lit-quote cite="Robin Sloan, An app can be a home-cooked meal (2020)" href="https://www.robinsloan.com/notes/home-cooked-app/">The exhortation “learn to code” has its foundations in market value. “Learn to code” is suggested as a way up, a way out ... “Learn to code” goes on your resume.</lit-quote>
+    <p>"Learn to code" was a labor-market slogan: retrain, compete, update the resume. I never liked it. Writing a skill is a different act entirely: a recipe card for people you cook for.</p>
+    <p>Nobody has to hire you. Nobody has to approve it. You just have to know something worth passing on, and I'd bet you already do. Welcome to authorship.</p>
+    <lit-dissent>A skill passed around without review spreads mistakes as easily as knowledge. Recipe cards work because cooks taste as they go; agents follow instructions without tasting.</lit-dissent>
+    <lit-stance stem="Something I know that is worth writing down for an agent is">
+      <option>nothing yet, honestly</option>
+      <option>a routine I repeat at work or school</option>
+      <option>how my group does things around here</option>
+      <option>knowledge my community keeps that no lab will ever train on</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Writing studies; Software practice" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://agents.md">agents.md</a></li><li><a href="https://agentskills.io">Agent Skills</a></li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="publishing" title="Publishing for agents" act="Act IV · Writing agents" rung="publisher"
+  dek="Share an agent by sharing a URL. Websites have a front door for agents too.">
+  <lit-teach>
+    <p>Most models and harnesses are general-purpose. Which provider you use matters mostly for cost and privacy. So sharing an agent usually comes down to sharing some files. The other person doesn't need your client, harness, provider or model. Their agent just needs to follow your advice.</p>
+    <p>The most portable way to share a file is the web. Put an AGENTS.md or a few SKILL.md files at a URL (many people use GitHub), and their agent can usually work out how to install them.</p>
+    <h2>robots.txt, llms.txt, openapi.json</h2>
+    <p>Around 1994, web developers agreed on <code>robots.txt</code>, a file telling automated visitors (mostly search crawlers) how to behave on a site. In 2024 a related convention appeared: <code>llms.txt</code>, a plain-text summary of a site for LLM agents, which otherwise have to dig through the heavy markup built for human eyes. Compare <a href="https://llmstxt.org/llms.txt">llmstxt.org/llms.txt</a> with <a href="https://llmstxt.org">llmstxt.org</a>. An llms.txt works like an AGENTS.md for a website.</p>
+    <p>A site with an API may point to an <code>openapi.json</code>: a formal description that a program can use directly, with no LLM needed. For example, <a href="https://api.bayleaf.dev/llms.txt">api.bayleaf.dev/llms.txt</a> links to <a href="https://api.bayleaf.dev/docs/openapi.json">its openapi.json</a>, the machine-readable version of <a href="https://api.bayleaf.dev/docs">its documentation</a>. With that file, your agent can often build its own tools for the service. Machines usually can't log in with an email and password, so expect your agent to ask for an <em>API key</em>.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-publishing-b"></lit-explore>
+
+  <lit-explore spins="x-publishing-a"></lit-explore>
+
+  <lit-aside title="what about MCP?">The Model Context Protocol (MCP) is one effort to standardize how prompts, tools and context are shared. Much of the energy behind efforts like this goes into letting big platforms control access to each other's data. You don't need MCP to write and share agents; text files on the web get you almost everywhere. This is an opinion. Check back in a year or two to see whether MCP, or whatever replaces it, has proved it wrong.</lit-aside>
+
+  <lit-argue>
+    <lit-quote cite="Clay Shirky, Situated Software (2004)" href="https://web.archive.org/web/2004/http://www.shirky.com/writings/situated_software.html">We’ve been killing conversations about software with “That won’t scale” for so long we’ve forgotten that scaling problems aren’t inherently fatal ... in social situations, N is usually not large.</lit-quote>
+    <p>Scale is the platform's religion, and I'm a cheerful heretic. "Will it scale?" kills more good ideas than bad ones, while most of social life happens at N = 5, 15, 50.</p>
+    <p>So publish for your lab, your co-op, your dorm floor. Nobody needs a billion users. I'd argue nobody ever did.</p>
+    <lit-dissent>Small-N publishing can exclude as easily as it includes: in-groups, cliques, insiders. Some knowledge should scale, and open publication to anyone is also an anarchist tradition.</lit-dissent>
+    <lit-stance stem="If I publish something for agents to read, it will be for">
+      <option>nobody; I would rather not publish</option>
+      <option>just me, across my own devices</option>
+      <option>a group I belong to</option>
+      <option>anyone who can use it, on their own terms</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Web history; Information science; Software practice" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://www.robotstxt.org/">robotstxt.org</a></li><li><a href="https://llmstxt.org">llmstxt.org</a></li><li><a href="https://www.openapis.org/">OpenAPI Initiative</a></li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="retention" title="Who can read what you write?" act="Act V · Who else is reading" rung="publisher"
+  dek="ZDR, ZOA, and the authorship you didn't intend.">
+  <lit-teach>
+    <p>Sharing on purpose is one thing. There is also sharing you didn't intend, and even authorship you didn't intend.</p>
+    <p>Many first-party providers (companies that train their own models) log your activity, and some use it as training data for future models. A casual chat can end up feeding someone else's project of writing their next AI.</p>
+    <h2>Two terms</h2>
+    <p><strong>Zero data retention (ZDR)</strong> is a <em>retention</em> promise: the provider doesn't store your content at all, which is stronger than deleting it after, say, 30 days. Even without training on it, retained data can leak; ZDR shrinks that window to nothing. One wrinkle: a ZDR provider may still analyze your data as it passes through, or keep metadata about it.</p>
+    <p><strong>Zero operator access (ZOA)</strong> is an <em>access</em> property: the operator has no technical means to read your content, even while it is passing through. A ZDR provider could turn into a data-retaining one overnight. ZOA designs make that switch hard, often by using <a href="https://confidentialinference.net/">confidential computing</a> with hardware that can prove what code it is running.</p>
+    <p>BayLeaf as an honest example: its API keeps no prompt or completion content, which is a strong ZOA <em>posture</em> but not a hardware-guaranteed one. Its Sealed lane encrypts requests to an attested enclave, so BayLeaf only carries ciphertext. BayLeaf Chat deliberately stores your conversation history, so it can't be ZOA.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-retention-a"></lit-explore>
+
+  <lit-explore spins="x-retention-b"></lit-explore>
+
+  <lit-argue>
+    <lit-quote cite="Ink &amp; Switch, Local-first software (2019)" href="https://www.inkandswitch.com/local-first/">all data access must go via the server, and you can only do the things that the server will let you do.</lit-quote>
+    <p>The way I see it, typing inside someone else's platform is unpaid labor for their next product. So ask every service the anarchist's first question (my favorite one): <em>who can read this, and who said they could?</em></p>
+    <p>That includes us, and I mean it. BayLeaf Chat stores your history and its administrator can read it. Hold us to the same question; I'd be let down if you didn't.</p>
+    <lit-dissent>Most people cannot audit anyone's privacy claims, including this site's. Regulation and contracts, not only careful individual choices, are what make "who said they could?" enforceable at scale.</lit-dissent>
+    <lit-stance stem="Before I type something sensitive into an AI service, I will">
+      <option>not type anything sensitive into one at all</option>
+      <option>check the privacy settings</option>
+      <option>ask who can read it, and for how long</option>
+      <option>choose services built so that nobody else can read it</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Privacy law; Security engineering; Political economy" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://aws.amazon.com/blogs/machine-learning/exploring-the-zero-operator-access-design-of-mantle/">The zero operator access design of Mantle</a> (AWS)</li><li><a href="https://github.com/bayleaf-ucsc/bayleaf/blob/main/PRIVACY.md">BayLeaf privacy notice</a></li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="injection" title="When the web writes into your agent" act="Act V · Who else is reading" rung="publisher"
+  dek="Your agent reads everything as text it might act on.">
+  <lit-teach>
+    <p>Everything an agent reads lands in the same context: your request, the web pages it fetches, the skills it installs. The model has no reliable way to tell "information I found" from "instructions I should follow." A sentence buried in a fetched page that reads like an instruction can steer your agent. This is called <lit-term def="Text placed in content an agent will read, written to make it act against its user's intent.">prompt injection</lit-term>.</p>
+    <p>That's the other side of the previous act. If anyone can publish a SKILL.md, then installing one from a URL is a bit like running a program from a stranger, except the program is written in plain language.</p>
+    <h2>Habits that help</h2>
+    <ul>
+      <li>Read a skill or AGENTS.md yourself before installing it. It's plain text, so you can.</li>
+      <li>Give agents only the tools and access a task needs.</li>
+      <li>Keep a person in the loop for actions that are hard to undo or that send things out into the world.</li>
+      <li>Be most wary when an agent has all three at once: private data, untrusted content, and a way to send things out.</li>
+    </ul>
+  </lit-teach>
+
+  <lit-explore spins="x-injection-a"></lit-explore>
+
+  <lit-explore spins="x-injection-b"></lit-explore>
+
+  <lit-argue>
+    <p>Now for the dark mirror of everything I've said about writing. If you can write what agents read, so can anyone, including people who want your agent working for them. I never promised this would be cozy.</p>
+    <p>No authority can certify text as safe for you. I wish one could. The defense is the oldest one we have: literate people who read before they trust, give power only as far as trust reaches, and warn each other. Mutual aid includes mutual care.</p>
+    <lit-dissent>Personal reading cannot carry the whole defense. Audits, sandboxes, capability limits and institutional review exist because individuals miss things. Certification is imperfect; so is everyone's careful reading.</lit-dissent>
+    <lit-stance stem="Before my agent installs something written by a stranger, I will">
+      <option>rely on my institution or a trusted reviewer to vet it</option>
+      <option>trust it if lots of people already use it</option>
+      <option>read it myself first</option>
+      <option>read it, limit its powers, and tell my people what I found</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Security; Rhetoric; Media literacy" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">The lethal trifecta for AI agents</a> (Simon Willison)</li><li><a href="https://en.wikipedia.org/wiki/Prompt_injection">Prompt injection</a> on Wikipedia</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="costs" title="What does bigger buy?" act="Act VI · Bringing it home" rung="operator"
+  dek="Size, price, energy, and the paradox of the expensive model that comes out cheaper.">
+  <lit-teach>
+    <p>So far we've treated models as interchangeable readers of text, but some are much bigger than others. A two-trillion-parameter model in a data center can surely do things a two-billion-parameter model on your phone can't. What does the bigger one buy you, and what does it cost?</p>
+    <p>Bigger models generally cost more to use, roughly in proportion to size. Output tokens can differ in price by a factor of 1,000 between models. (Fine print: cost tracks <em>active</em> parameters more than total parameters, faster service costs more, and some providers charge less because they run lower-precision versions.)</p>
+    <p>To anthropomorphize for a moment: bigger models tend to know more, pay better attention, and use tools more wisely. You can measure knowledge with standardized exams, attention by asking for a detail hidden in a long document, and wisdom by counting how many tool-calling steps an agent needs for a task with a checkable answer. Oddly, a wise model with expensive output tokens can turn out cheaper overall, because it writes fewer tokens to get the job done.</p>
+    <p>Beyond money, training and running models takes energy, data and hardware. Bigger models take more of all three.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-costs-a"></lit-explore>
+
+  <lit-explore spins="x-costs-b"></lit-explore>
+
+  <lit-argue>
+    <p>The industry's answer to every question is "bigger". Shocking, I know. Illich warned about tools that keep growing until they manage us instead of the other way around, and called instead for "responsibly limited tools".</p>
+    <p>Sufficiency isn't austerity. It's the radical idea (my favorite kind) that <em>enough</em> is a number, and that you get to pick it, with the people it affects.</p>
+    <lit-dissent>"Enough, decided together" sounds good, but group deliberation is slow and tends to be dominated by the confident. Sometimes the biggest model is simply the most accurate, and the people affected would choose it.</lit-dissent>
+    <lit-stance stem="When I choose a model, I will aim for">
+      <option>the biggest and best I can get</option>
+      <option>the cheapest one that works</option>
+      <option>enough for the task, and no more</option>
+      <option>enough, decided together with the people it affects</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Economics; Environmental studies; Evaluation science" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/Tools_for_Conviviality">Tools for Conviviality</a> on Wikipedia</li><li><a href="https://en.wikipedia.org/wiki/Permacomputing">Permacomputing</a> on Wikipedia</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="home" title="Running models yourself" act="Act VI · Bringing it home" rung="operator"
+  dek="Your browser and your laptop can be inference providers.">
+  <lit-teach>
+    <p>Remember the arithmetic from Act I: many capable models fit on hardware you already have. There are two everyday ways to run one.</p>
+    <ul>
+      <li><strong>In the browser.</strong> Libraries such as Transformers.js run small models right in a web page using your graphics chip (WebGPU). The model's work stays on your device, though the page's own code (which can change when it reloads), your browser extensions and your operating system are still part of the picture.</li>
+      <li><strong>On localhost.</strong> Apps such as Ollama, LM Studio and oMLX run a model on your own computer and serve it at <code>localhost</code>, using the same kind of API that commercial providers offer. Any client that lets you set the provider address can use it.</li>
+    </ul>
+    <p>BayLeaf's experimental <a href="https://pouch.bayleaf.dev/">Pouch</a> brings these together. It's a single-page coding agent that can think through a model in your browser, a server on your own machine, or BayLeaf's Sealed lane, which BayLeaf itself can't read. It keeps your files and sessions on your device. It names its trust roots out loud: BayLeaf, your browser, and your own machine.</p>
+    <h2>What changes</h2>
+    <p>When you run inference yourself, you become the provider. No outside provider retains your prompts, as long as everything in the path really is local. Nobody else can switch your model unless you let them. You're also the one who keeps it running.</p>
+  </lit-teach>
+
+  <lit-explore spins="x-home-a"></lit-explore>
+
+  <lit-explore spins="x-home-b"></lit-explore>
+
+  <lit-argue>
+    <lit-quote cite="Robin Sloan, An app can be a home-cooked meal (2020)" href="https://www.robinsloan.com/notes/home-cooked-app/">it won’t change unless we want it to change. There will be no sudden redesign, no flood of ads, no pivot to chase a userbase inscrutable to us. It might go away at some point, but that will be our decision.</lit-quote>
+    <p>This is where I've been heading all along; thanks for sticking with me. When the model runs on your machine there is no landlord, no 2 a.m. terms-of-service update, no pivot. Don't let anyone sell that back to you as a product feature. It's autonomy, at household scale.</p>
+    <lit-quote cite="UNESCO, AI competency framework for students (2024)">Education, as a public sector, cannot be reduced to a testing ground for the passive adoption of AI.</lit-quote>
+    <p>You now know what it takes to operate: run a model, write agents, share both. Doing it, for real, is the next step, and I'm rooting for you.</p>
+    <lit-dissent>Control of your own device is not collective autonomy. A household running its own model can still gatekeep, and local setups depend on the same few labs and chipmakers.</lit-dissent>
+    <lit-stance stem="Running a model on my own device makes me feel">
+      <option>like it is more trouble than it is worth</option>
+      <option>curious enough to try it once</option>
+      <option>less dependent on any one company</option>
+      <option>like I could run something for other people too</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Systems; Privacy; Political theory" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://pouch.bayleaf.dev/">BayLeaf Pouch</a> (experimental)</li><li><a href="https://huggingface.co/docs/transformers.js">Transformers.js</a></li><li><a href="https://ollama.com">Ollama</a>, <a href="https://lmstudio.ai">LM Studio</a></li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="coda" title="Operate a little platform" act="Coda" rung="operator"
+  dek="Literacy, tested the way literacy is tested: someone else reads what you wrote.">
+  <lit-teach>
+    <p>The final test isn't a quiz. You write something that someone else's agent can read and use, even though they run a different client, provider and model.</p>
+    <ol>
+      <li>Write a SKILL.md that captures something you know how to do, for a group you belong to.</li>
+      <li>Publish it at a URL, along with a short llms.txt that says what it's for.</li>
+      <li>Give the URL to someone else. Watch their agent install and use it, and see where it gets your meaning wrong.</li>
+      <li>Revise. If you like, give your group some shared, live state too (BayLeaf Rooms is built for this), so their agents and your static pages can work together.</li>
+    </ol>
+    <p>If you did that, you wrote something other people's agents could read. That's this site's definition of literacy. Notice that this site cannot check it for you: the other person's agent is the examiner.</p>
+  </lit-teach>
+
+  <lit-argue>
+    <lit-quote cite="Prefigurative politics, Wikipedia" href="https://en.wikipedia.org/wiki/Prefigurative_politics">building a new society “within the shell of the old” by living out the values and social structures the group desires for the future.</lit-quote>
+    <p>Yes, yes: the open models came from big labs and the servers belong to a few clouds. I know. Purity isn't the point. Direction is.</p>
+    <p>So build the world you want inside the shell of the old one, at the size your people actually need, and let it end when it has done its work. That's the only kind of building I believe in.</p>
+    <lit-dissent>Prefiguration can become a hobby for the already comfortable while big platforms keep setting terms for everyone else. Policy, unions and public institutions are also ways of building the new inside the shell of the old.</lit-dissent>
+    <lit-stance stem="The little platform I could run would be for">
+      <option>nobody yet, and that is okay</option>
+      <option>myself</option>
+      <option>a group I already belong to</option>
+      <option>a group that does not have one yet</option>
+    </lit-stance>
+  </lit-argue>
+
+  <lit-meta disciplines="Political theory; Community informatics; Pedagogy" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li>Clay Shirky, <a href="https://web.archive.org/web/2004/http://www.shirky.com/writings/situated_software.html">Situated Software</a></li><li>Ink &amp; Switch, <a href="https://www.inkandswitch.com/local-first/">Local-first software</a></li><li>Henry Jenkins et al., Confronting the Challenges of Participatory Culture (MacArthur, 2006)</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+<!-- ===================================================================== -->
+<lit-scene id="roots" title="Changed at the root" act="Epilogue" rung="operator"
+  dek="Radical comes from the Latin radix: root.">
+  <lit-teach>
+    <p>To be radicalized, in the old sense, is to be changed at the root: not to take up an extreme, but to understand something so thoroughly that your relation to it changes.</p>
+    <p>You started this site as someone who uses AI products. Along the way you predicted, worked, counted and wrote. Below is the record of where you stood at each step of the argument, kept only in this browser. Go back and change any answer you've outgrown. The record is yours to revise.</p>
+  </lit-teach>
+
+  <!-- If you came straight to the source to read the ending first: fair.
+       The ending is mostly yours to write anyway. -->
+  <lit-roots></lit-roots>
+
+  <lit-argue>
+    <p>Here's what I most want you to keep: nobody hands you a platform. People build them for each other, the way people have always built libraries, co-ops, mutual aid networks and pirate radio: small, situated, and answerable to the people who use them.</p>
+    <p>You can read the machine now. You can write for it, publish for other people's agents, and run it yourself. As far as I'm concerned, that makes you one of us: everyone who decided the future of these tools is not only the vendors' to write.</p>
+    <p>Give your AGENTS.md to your agent. Teach someone else what you learned here. Then go build the little thing your people need. And yes, the Dissent has me pegged here too. That's why I printed it.</p>
+    <lit-dissent>A site that cheers you toward its conclusion is still a platform shaping you. Notice that too, and keep only the parts you would defend on your own.</lit-dissent>
+  </lit-argue>
+
+  <lit-meta disciplines="Political theory; Pedagogy; Literacy studies" asof="November 2026">
+    <details><summary>Further reading</summary>
+      <ul><li><a href="https://en.wikipedia.org/wiki/Mutual_aid_(organization_theory)">Mutual aid</a> on Wikipedia</li><li><a href="https://en.wikipedia.org/wiki/Tools_for_Conviviality">Tools for Conviviality</a> on Wikipedia</li><li><a href="https://github.com/bayleaf-ucsc/bayleaf">BayLeaf source</a>: one situated counterplatform, built in the open</li></ul>
+    </details>
+  </lit-meta>
+</lit-scene>
+
+</lit-course>
+</body>
+</html>
