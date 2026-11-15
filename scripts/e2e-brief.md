@@ -24,7 +24,7 @@ re-reading large outputs.
 
 ## How a scene works
 - Teach: prose, then "I've read it: show me the work" reveals the work.
-- Work: a prediction (buttons; once answered they lock, by design), then an
+- Work: a prediction (buttons; choose at least one, then freely change answers without resetting the exercise), then an
   interactive explorable. Some scenes run two explorables in sequence: work both.
   An explorable is finished when the status line under it changes to a debrief
   sentence (and stops saying what is left).

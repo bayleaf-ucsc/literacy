@@ -15,7 +15,7 @@ Every scene braids three threads, each a custom element. Readers cannot switch a
 | Thread | Element | Role |
 |---|---|---|
 | Teach | `<lit-teach>`, `<lit-aside>`, `<lit-term>` | direct explanation |
-| Work | `<lit-predict>`, `<lit-explore>` | commit to a prediction, then work an explorable; working it unlocks *Continue* |
+| Work | `<lit-predict>`, `<lit-explore>` | choose a prediction, then work an explorable; working it unlocks *Continue* |
 | Argue | `<lit-argue>`, `<lit-quote>` | the mounting argument, Consumer › Chooser › Author › Publisher › Operator (`rung=` on each scene, shown by `<lit-ladder>`) |
 
 `<lit-meta>` closes each scene with disciplines in play, further reading and an as-of date.
@@ -26,7 +26,8 @@ Every scene braids three threads, each a custom element. Readers cannot switch a
 
 - **Teach**: `<lit-readcheck>` (inserted automatically before the first exercise) is a
   self-certified "I've read it"; the Work thread stays hidden until then.
-- **Work**: every prediction answered and every explorable completed.
+- **Work**: every prediction answered and every explorable completed. Predictions stay
+  changeable after answering; trying another answer does not reset the explorable.
 - **Argue**: `<lit-stance stem="...">` asks the reader to finish a first-person sentence,
   from options or in their own words. Any answer is fine; answering is what counts.
   `<lit-dissent>` precedes it with the strongest counterargument.
@@ -62,9 +63,10 @@ from local resources.
 
 Following UNESCO's definition of literacy ("identify, understand, interpret, create,
 communicate and compute"), every explorable declares `static literacies = { read,
-write, count }`, and `<lit-explore>` renders them as badges. A missing entry shows as
-a dashed badge, so gaps are visible in review. Counting means a rough numerical
-estimate made before a reveal.
+write, count }`, and `<lit-explore>` renders them as inline, underlined words.
+Hovering or focusing a word reveals its explanation in space reserved below, blank
+by default. A missing entry has a dashed underline, so gaps are visible in review.
+Counting means a rough numerical estimate made before a reveal.
 
 ## Testing
 

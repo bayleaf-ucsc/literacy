@@ -15,15 +15,16 @@ cards, a role to play. Each brief below is a starting point; push the design fur
 - One file per spin; `import { Explorable, h, fmt } from '../js/kit.js'`; extend
   `Explorable`; `customElements.define('x-<scene>-<letter>', ...)`.
 - `static prediction = { question, options: [{ label, correct, feedback }], after }`:
-  a two-option (occasionally three) prediction the learner must commit to before the
-  explorable appears. Feedback explains *why* for both options. Each spin writes its own
-  prediction, fitted to its design.
+  a two-option (occasionally three) prediction the learner must answer before the
+  explorable appears. Answers remain changeable without resetting the explorable.
+  Feedback explains *why* for both options. Each spin writes its own prediction,
+  fitted to its design.
 - `static literacies = { read, write, count }`: one short sentence each saying where the
   learner *reads* (interprets a situation), *writes* (creates or edits something, even
   just by choosing words or clicking to compose), and *counts* (makes a rough numerical
   judgment, ideally an estimate before the reveal, then sees how close it was). This
   follows UNESCO's literacy definition ("identify, understand, interpret, create,
-  communicate and compute"). All three must be genuinely present; badges render from it.
+  communicate and compute"). All three must be genuinely present; inline explanations render from it.
 - Call `this.progress(done, total, note)` as they work and `this.complete(note)` only when
   they have genuinely worked it (several meaningful interactions, all tooltips read, a
   target reached), never on first click. `note` is a one-sentence debrief of what they

@@ -21,10 +21,11 @@ for (const [k, id] of ids.slice(0, -1).entries()) {
   const S = `lit-scene#${id}`;
   const gate = page.locator(`${S} lit-readcheck button`);
   if (await gate.count()) await gate.click();
-  for (let i = 0; i < 6; i++) {
-    const open = page.locator(`${S} .lit-options button:not(:disabled)`);
-    if (!await open.count()) break;
-    await open.first().click();
+  // Choices remain enabled after answering. Visit each exercise rather than
+  // treating enabled buttons as a queue of unanswered predictions.
+  const work = page.locator(`${S} lit-predict, ${S} lit-explore`);
+  for (let i = 0; i < await work.count(); i++) {
+    await work.nth(i).locator('.lit-options button').first().click();
     await page.waitForTimeout(150);
   }
   await page.evaluate(S => document.querySelectorAll(`${S} lit-explore .lit-stage > *`).forEach(x => x.complete?.('path test')), S);

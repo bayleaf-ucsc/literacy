@@ -35,6 +35,38 @@ for (const t of targets.filter(t => !only.length || only.includes(t.scene))) {
     const card = page.locator(`lit-scene#${t.scene} lit-explore`).nth(t.index).locator('.lit-work');
     await card.locator('.lit-options button').first().click({ timeout: 5000 })
       .catch(() => errors.push('no prediction gate'));
+    // Revisiting answers must change feedback/selection, not reset the exercise.
+    const predictionProblems = await card.evaluate(card => {
+      const stage = card.querySelector('.lit-stage');
+      const exercise = stage.firstElementChild;
+      const buttons = [...card.querySelectorAll('.lit-options button')];
+      const problems = [];
+      buttons.forEach((button, i) => {
+        if (button.disabled) problems.push('prediction option locked');
+        button.click();
+        if (stage.firstElementChild !== exercise) problems.push('answer change reset exercise');
+        if (buttons.filter(b => b.hasAttribute('data-picked')).length !== 1 || !button.hasAttribute('data-picked')) {
+          problems.push(`prediction ${i} selection not updated`);
+        }
+      });
+      return problems;
+    });
+    errors.push(...predictionProblems);
+    const detail = card.locator('.lit-acts-detail');
+    const before = await detail.boundingBox();
+    if (await detail.locator('[data-active]').count()) errors.push('literacy explanation not blank by default');
+    for (const act of ['read', 'write', 'count']) {
+      const word = card.locator(`.lit-acts [data-act="${act}"]`);
+      await word.hover();
+      if (!await detail.locator(`[data-act="${act}"]`).isVisible()) errors.push(`${act} hover explanation missing`);
+      await page.mouse.move(0, 0);
+      await word.focus();
+      if (!await detail.locator(`[data-act="${act}"]`).isVisible()) errors.push(`${act} focus explanation missing`);
+      const after = await detail.boundingBox();
+      if (Math.abs(after.height - before.height) > 1) errors.push(`${act} explanation shifted layout`);
+      await word.evaluate(word => word.blur());
+    }
+    if (await detail.locator('[data-active]').count()) errors.push('literacy explanation did not clear');
     await page.waitForTimeout(300);
     const r = await page.evaluate(({ scene, index, tag }) => {
       const host = document.querySelectorAll(`lit-scene#${scene} lit-explore`)[index];

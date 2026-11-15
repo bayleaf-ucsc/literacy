@@ -47,9 +47,13 @@ function renderPrediction(host, prediction, key, onAnswered) {
   const q = el('p', { class: 'lit-q' }, prediction.question);
   const opts = el('div', { class: 'lit-options', role: 'group', 'aria-label': 'Your prediction' });
   const fb = el('div', { class: 'lit-feedback', tabindex: '-1', hidden: true });
+  let answered = false;
   const answer = (i, silent) => {
     const o = prediction.options[i];
-    [...opts.children].forEach((b, j) => { b.disabled = true; b.setAttribute('aria-pressed', String(j === i)); if (j === i) b.setAttribute('data-picked', ''); });
+    [...opts.children].forEach((b, j) => {
+      b.setAttribute('aria-pressed', String(j === i));
+      b.toggleAttribute('data-picked', j === i);
+    });
     fb.hidden = false;
     fb.replaceChildren(
       el('strong', { 'data-right': String(!!o.correct) }, o.correct ? 'Good prediction. ' : 'Not quite. '),
@@ -57,41 +61,55 @@ function renderPrediction(host, prediction, key, onAnswered) {
       prediction.after ? el('p', { style: 'margin:.5rem 0 0' }, prediction.after) : null,
     );
     if (!silent) progress.set(key, { pick: i, correct: !!o.correct });
-    onAnswered?.(i, !!o.correct);
+    // Unlock once: revisiting a prediction must not remount the exercise.
+    if (!answered) { answered = true; onAnswered?.(i, !!o.correct); }
     if (!silent) fb.focus();
   };
-  prediction.options.forEach((o, i) => opts.append(el('button', { type: 'button', onclick: () => answer(i) }, o.label)));
+  prediction.options.forEach((o, i) => opts.append(el('button', { type: 'button', 'aria-pressed': 'false', onclick: () => answer(i) }, o.label)));
   box.append(q, opts, fb);
   host.append(box);
   if (saved && Number.isInteger(saved.pick) && prediction.options[saved.pick]) answer(saved.pick, true);
 }
 
-// ---- Read / Write / Count badges -----------------------------------------
+// ---- Read / Write / Count explanations -----------------------------------
 // UNESCO's literacy is to "identify, understand, interpret, create,
 // communicate and compute". Every explorable declares, on its class,
 // where the learner reads, writes (even just by clicking) and counts:
 //   static literacies = { read: '...', write: '...', count: '...' }
-// A missing entry shows as a dimmed badge, which makes gaps visible.
+// A missing entry shows as dimmed text, which makes gaps visible.
 export const LITERACIES = [['read', 'Read'], ['write', 'Write'], ['count', 'Count']];
-literacyBadges.n = 0;
-function literacyBadges(lits = {}) {
-  const detail = el('p', { class: 'lit-acts-detail', 'aria-live': 'polite', hidden: true });
-  let open = null;
-  const lead = el('span', { class: 'lit-acts-lead', id: `lit-acts-${++literacyBadges.n}` }, 'This exercise asks you to');
-  const row = el('div', { class: 'lit-acts', role: 'group', 'aria-labelledby': lead.id }, lead,
-    ...LITERACIES.map(([id, label]) => el('button', {
-      type: 'button', 'data-act': id, 'data-has': String(!!lits[id]), 'aria-expanded': 'false',
-      onclick: e => {
-        const same = open === id;
-        row.querySelectorAll('button').forEach(b => b.setAttribute('aria-expanded', 'false'));
-        open = same ? null : id;
-        detail.hidden = same;
-        if (!same) {
-          e.currentTarget.setAttribute('aria-expanded', 'true');
-          detail.textContent = lits[id] ? `${label}: ${lits[id]}` : `${label}: not yet part of this exercise.`;
-        }
-      },
-    }, label)));
+literacyExplanations.n = 0;
+function literacyExplanations(lits = {}) {
+  // Stack all explanations in one grid cell to reserve the tallest one's space,
+  // including when none is visible, at any viewport width.
+  const detail = el('div', { class: 'lit-acts-detail', 'aria-live': 'polite' });
+  let hovered = null;
+  let focused = null;
+  const show = () => {
+    [...detail.children].forEach(p => {
+      const active = p.dataset.act === (hovered || focused);
+      p.toggleAttribute('data-active', active);
+      p.setAttribute('aria-hidden', String(!active));
+    });
+  };
+  const lead = el('span', { class: 'lit-acts-lead', id: `lit-acts-${++literacyExplanations.n}` }, 'This exercise asks you to');
+  const row = el('div', { class: 'lit-acts', role: 'group', 'aria-labelledby': lead.id }, lead, ' ');
+  LITERACIES.forEach(([id, label], i) => {
+    const descriptionId = `${lead.id}-${id}`;
+    detail.append(el('p', { id: descriptionId, 'data-act': id, 'aria-hidden': 'true' },
+      lits[id] ? `${label}: ${lits[id]}` : `${label}: not yet part of this exercise.`));
+    if (i) row.append(i === LITERACIES.length - 1 ? ', and ' : ', ');
+    // Native buttons retain keyboard and touch access, styled as inline links.
+    row.append(el('button', {
+      type: 'button', 'data-act': id, 'data-has': String(!!lits[id]), 'aria-describedby': descriptionId,
+      onmouseenter: () => { hovered = id; show(); },
+      onmouseleave: () => { hovered = null; show(); },
+      onfocus: () => { focused = id; show(); },
+      onblur: () => { focused = null; show(); },
+      onclick: e => e.currentTarget.focus(),
+    }, label.toLowerCase()));
+  });
+  row.append('.');
   return el('div', {}, row, detail);
 }
 
@@ -160,7 +178,7 @@ class LitExplore extends HTMLElement {
       return;
     }
     const Ctor = customElements.get(tag);
-    this.card.querySelector('.label').after(literacyBadges(Ctor?.literacies));
+    this.card.querySelector('.label').after(literacyExplanations(Ctor?.literacies));
     const mount = () => {
       const x = document.createElement(tag);
       x.addEventListener('lit-progress', e => {
