@@ -3,7 +3,9 @@
 Guidance for agents working on **AI Literacy for the LLM Age**, the explorable essay
 at `https://literacy.bayleaf.dev/`. It is a standalone project in the `bayleaf-ucsc`
 org: a publication about BayLeaf, not a BayLeaf service, with no backend or state.
-Architecture, contracts and testing: `README.md` and `SPINS.md`.
+Architecture, contracts and testing: `README.md` and `SPINS.md`. For an end-to-end
+playtest by subagent testers, hand each one `scripts/e2e-brief.md` with a persona, a
+scene and a port; treat their reports as hypotheses to reproduce before fixing.
 
 BayLeaf itself lives in https://github.com/bayleaf-ucsc/bayleaf. Its `AGENTS.md`
 ([data posture](https://github.com/bayleaf-ucsc/bayleaf/blob/main/AGENTS.md#data-posture-zdr-everywhere-zoa-where-possible)) is the source of truth for every claim this essay makes
