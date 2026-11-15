@@ -109,3 +109,8 @@ disappears.
   *Continue* requires work, so nobody is trapped.
 - **Tokens as the theming API**: shadow roots inherit `--lit-*`, so restyling the
   site restyles every explorable without touching their files.
+
+## License
+
+Essay text under [CC BY-SA 4.0](LICENSE-CC-BY-SA-4.0.txt), code under MIT; quoted
+sources and the BayLeaf logo excluded. Details in [LICENSE](LICENSE).
