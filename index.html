@@ -578,7 +578,7 @@
     <p>So far we've treated models as interchangeable readers of text, but some are much bigger than others. A two-trillion-parameter model in a data center can surely do things a two-billion-parameter model on your phone can't. What does the bigger one buy you, and what does it cost?</p>
     <p>Bigger models generally cost more to use, roughly in proportion to size. Output tokens can differ in price by a factor of 1,000 between models. (Fine print: cost tracks <em>active</em> parameters more than total parameters, faster service costs more, and some providers charge less because they run lower-precision versions.)</p>
     <p>To anthropomorphize for a moment: bigger models tend to know more, pay better attention, and use tools more wisely. You can measure knowledge with standardized exams, attention by asking for a detail hidden in a long document, and wisdom by counting how many tool-calling steps an agent needs for a task with a checkable answer. Oddly, a wise model with expensive output tokens can turn out cheaper overall, because it writes fewer tokens to get the job done.</p>
-    <p>Beyond money, training and running models takes energy, data and hardware. Bigger models take more of all three.</p>
+    <p>Beyond money, training and running models takes energy, data and hardware. Bigger models take more of all three for each token they process.</p>
   </lit-teach>
 
   <lit-explore spins="x-costs-a"></lit-explore>

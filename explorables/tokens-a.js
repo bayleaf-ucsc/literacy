@@ -17,13 +17,30 @@ const VOCAB = [
 
 // Render text with each space as a visible dot.
 function spaced(text) {
-  return [...text].map(c => c === ' ' ? h('span', { class: 'sp', 'aria-hidden': 'true' }, '·') : c);
+  return [...text].map(c => c === ' ' ? h('span', { class: 'sp' }, h('span', { 'aria-hidden': 'true' }, '·'), h('span', { class: 'sr' }, ' ')) : c);
 }
+// The same meaning in German. This vocabulary has no German words, so the
+// cut falls back to single letters (real tokenizers fall back to bytes).
+const OTHER = 'Die Katze saß auf der Matte.';
+function cut(text) {
+  const out = [];
+  for (let i = 0; i < text.length;) {
+    const best = VOCAB.filter(([t]) => text.startsWith(t, i)).sort((a, b) => b[0].length - a[0].length)[0] || [text[i], null];
+    out.push(best); i += best[0].length;
+  }
+  return out;
+}
+const LANG_OPTS = [
+  ['About the same: 7 to 9', false],
+  ['About twice: 12 to 16', false],
+  ['Three times or more: 20 or more', true],
+];
+
 function spoken(text) {
   return text.replace(/ /g, 'space ').trim();
 }
 function chip(text, id) {
-  return h('span', { class: 'tok' }, h('span', {}, spaced(text)), h('span', { class: 'id' }, String(id)));
+  return h('span', { class: id == null ? 'tok letter' : 'tok' }, h('span', {}, spaced(text)), h('span', { class: 'id' }, id == null ? 'letter' : String(id)));
 }
 
 class TokensA extends Explorable {
@@ -41,7 +58,7 @@ class TokensA extends Explorable {
   static literacies = {
     read: 'You read token chips, with their ids and visible spaces, as the pieces a model actually sees.',
     write: 'You compose the target sentence chip by chip, more than one way.',
-    count: 'You guess the fewest tokens the sentence can take before building it, then see how close you were.',
+    count: 'You guess the fewest tokens the sentence can take before building it, then guess what the same sentence costs in German, and see how close you were.',
   };
 
   static css = `
@@ -63,6 +80,8 @@ class TokensA extends Explorable {
     .guess { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
     .guess button { min-width: 2.4rem; font-variant-numeric: tabular-nums; }
     .guess button[aria-pressed=true] { background: var(--lit-work-tint); border-color: var(--lit-work); font-weight: 600; }
+    .tok.letter { border-style: dashed; background: var(--lit-surface); }
+    .lang .built { margin-top: 0.4rem; }
     .label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--lit-muted); margin-bottom: 0.25rem; }
   `;
 
@@ -70,6 +89,7 @@ class TokensA extends Explorable {
     this.seq = [];            // indices into VOCAB
     this.guess = null;        // learner's estimate of the fewest tokens, made before building
     this.builds = new Map();  // id-sequence key -> token count
+    this.langGuess = null;    // estimate for the German sentence, an index into LANG_OPTS
     this.built = h('div', { class: 'built', 'aria-live': 'polite' });
     this.text = h('div', { class: 'readout' });
     this.ids = h('div', { class: 'readout muted' });
@@ -113,6 +133,7 @@ class TokensA extends Explorable {
         h('div', { class: 'row', style: { marginTop: '0.6rem' } }, this.undoBtn, this.clearBtn)),
       this.verdict,
       h('div', {}, h('div', { class: 'label' }, 'Builds that match'), this.foundList),
+      this.langCard = h('div', { class: 'card lang', hidden: true }),
     ));
     this.update();
   }
@@ -167,12 +188,36 @@ class TokensA extends Explorable {
     const n = entries.length;
     const hasMin = entries.some(([, c]) => c === MIN);
     const done = (hasMin ? 1 : 0) + (entries.some(([, c]) => c > MIN) ? 1 : 0);
-    if (hasMin && n >= 2) {
+    if (hasMin && n >= 2 && this.langGuess == null) {
+      this.renderLang();
+      this.progress(2, 3, 'One more: the same sentence in another language, below.');
+    } else if (hasMin && n >= 2) {
       this.complete(`Several token sequences spell the same sentence, and this toy vocabulary allows a fewest. A real tokenizer does not search for the shortest: it applies its own fixed rules, and a different vocabulary, or the same meaning in another language, would be cut into a different count. Whoever builds the vocabulary shapes those counts, and the model only ever sees the numbers.`);
     } else {
       this.progress(done, 2, n ? `${n} matching build${n === 1 ? '' : 's'} found. ${hasMin ? 'Now find a longer one that reads the same.' : `Fewest so far: ${entries[0][1]} tokens.`}`
         : 'Rebuild the target sentence.');
     }
+  }
+
+  // Count, then read: the same meaning in a language this vocabulary was not built for.
+  renderLang() {
+    const first = this.langCard.hidden;
+    this.langCard.hidden = false;
+    const toks = cut(OTHER);
+    const opts = LANG_OPTS.map(([label, ok], i) => h('button', { type: 'button', 'aria-pressed': String(this.langGuess === i),
+      disabled: this.langGuess != null, onclick: () => { this.langGuess = i; this.renderLang(); this.renderFound(); } }, label));
+    this.langCard.replaceChildren(...[
+      h('div', { class: 'label' }, 'Same meaning, another language'),
+      h('div', { class: 'target' }, spaced(OTHER)),
+      h('div', {}, `This vocabulary was built for English: it has no German words, so it falls back to single letters. You needed ${MIN} tokens for the English. How many will the German take?`),
+      h('div', { class: 'guess', role: 'group', 'aria-label': 'Your estimate for the German sentence' }, opts),
+      this.langGuess == null ? null : h('div', { 'aria-live': 'polite' },
+        h('div', { class: 'built' }, toks.map(([t, id]) => chip(t, id))),
+        h('p', { style: { margin: '0.5rem 0 0' } },
+          h('span', { class: LANG_OPTS[this.langGuess][1] ? 'ok' : 'bad' }, `${toks.length} tokens, ${(toks.length / MIN).toFixed(1)} times the English. `),
+          'Real tokenizers saw some German in training and do far better than this toy; for languages with little training text, gaps of several times remain. Same meaning, different count: the vocabulary decides how many pieces each language becomes.')),
+    ].filter(Boolean));
+    if (first) opts[0].focus();
   }
 }
 
