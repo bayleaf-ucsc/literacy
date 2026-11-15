@@ -88,10 +88,9 @@ npx wrangler deploy
 BASE=https://literacy.bayleaf.dev/index.html PLAYWRIGHT=... node scripts/smoke.mjs
 ```
 
-Cloudflare's zone-level Web Analytics injects a beacon script into this hostname's
-pages. The CSP blocks it (so nothing is collected, and the console shows one blocked
-script per page). Turning the injection off for this hostname is a zone setting in the
-BayLeaf Cloudflare account.
+Cloudflare Web Analytics for the `bayleaf.dev` zone is set to manual snippet
+installation (changed 2026-11-14), so no beacon is injected into these pages. The CSP
+would block one anyway, as a backstop for the no-telemetry promise.
 
 ## Design spins
 
