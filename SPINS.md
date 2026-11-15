@@ -48,9 +48,15 @@ PLAYWRIGHT=/path/to/node_modules/playwright/index.mjs node scripts/smoke.mjs <sc
 ```
 
 For completion, write a small Playwright script in your own temp dir that drives your
-spin through `element.shadowRoot` and prints whether `lit-complete` fired. Do not take
-screenshots or browser-panel snapshots into your context: the OpenChamber browser tool
-cannot click inside shadow roots anyway, and screenshots were the main cost of round one.
+spin through `element.shadowRoot` and prints whether `lit-complete` fired. Avoid
+screenshots and whole-page browser-panel snapshots: they were the main cost of round
+one. To play a spin as a reader in the OpenChamber browser panel, which cannot see into
+shadow roots, add `?light` to the URL (see `README.md`) and snapshot only the spin's tag.
+
+Never pass `null` or an array to native `append`/`replaceChildren`: they print "null"
+or "[object HTMLElement]". `h()` filters nulls and flattens arrays; the DOM methods
+don't. And don't name a property after an `HTMLElement` one (`this.lang`, `this.title`,
+`this.hidden`): the element reflects it as an attribute.
 
 ## Scenes that sequence spins
 

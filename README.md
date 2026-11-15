@@ -73,8 +73,23 @@ PLAYWRIGHT=/path/to/node_modules/playwright/index.mjs node scripts/smoke.mjs [sc
 ```
 
 Text-only smoke test over every explorable at 1280px and 360px: it mounts behind its
-prediction, logs no errors, has focusable controls, doesn't overflow, and declares all
-three literacies.
+prediction, logs no errors, has focusable controls, doesn't overflow, leaks no raw
+values (`null`, `[object …]`), and declares all three literacies.
+
+```bash
+PLAYWRIGHT=... node scripts/a11y.mjs [scene ...]   # OUT=dir also saves each scene's aria tree
+PLAYWRIGHT=... node scripts/path.mjs               # Continue from the first scene to the last
+```
+
+`a11y.mjs` works each scene's gates by keyboard alone (Tab, Enter), then tabs through
+the scene and reports focus stops with no name or no visible ring, and pointer-only
+targets. `path.mjs` walks the whole braid in order: every gate, every stance, every
+Continue (explorables are marked complete directly; they have their own tests).
+
+Agent browsers that cannot see into shadow roots (OpenChamber's panel, for one) can
+add `?light` to the URL: explorables then mount in the light DOM, styled with
+`@scope`. It is a testing aid only; ids inside explorables may collide across scenes,
+so a label can look unnamed there that is fine in the real page.
 
 ## Deploy
 

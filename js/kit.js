@@ -41,18 +41,36 @@ input[type=range] { width: 100%; accent-color: var(--lit-work); }
 }
 .tok .id { font-size: 0.7em; color: var(--lit-muted); }
 .bar { height: 0.8rem; border-radius: 3px; background: var(--lit-work); }
+/* Visually hidden, still read aloud: state that is otherwise only a color or a mark. */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: pre; }
 .debrief { margin-top: 0.75rem; padding: 0.6rem 0.8rem; border-left: 3px solid var(--lit-work); background: var(--lit-surface); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 `;
+
+// ?light in the URL mounts explorables in the light DOM instead of a shadow
+// root: a testing aid for agent browsers that cannot see into shadow roots.
+// Styles are fenced with @scope, so the page's own styles may bleed in a little.
+const LIGHT = new URLSearchParams(location.search).has('light');
 
 export class Explorable extends HTMLElement {
   static prediction = null;
   static css = '';
   connectedCallback() {
     if (this.root) return;
-    this.root = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
-    style.textContent = baseCSS + this.constructor.css;
+    const css = baseCSS + this.constructor.css;
+    if (LIGHT) {
+      this.root = document.createElement('div');
+      // Explorables restore focus through root.activeElement, as on a shadow root.
+      Object.defineProperty(this.root, 'activeElement', {
+        get: () => this.root.contains(document.activeElement) ? document.activeElement : null,
+      });
+      style.textContent = `@scope (${this.localName}) { ${css.replaceAll(':host', ':scope')} }`;
+      this.append(this.root);
+    } else {
+      this.root = this.attachShadow({ mode: 'open' });
+      style.textContent = css;
+    }
     this.root.append(style);
     this.mount(this.root);
   }

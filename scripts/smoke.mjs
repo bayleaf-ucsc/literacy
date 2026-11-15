@@ -46,6 +46,9 @@ for (const t of targets.filter(t => !only.length || only.includes(t.scene))) {
         focusables: sr ? sr.querySelectorAll('button, input, select, textarea, [tabindex]').length : 0,
         overflow: Math.max((x?.scrollWidth || 0) - (host?.clientWidth || 0), document.documentElement.scrollWidth - innerWidth),
         missing: ['read', 'write', 'count'].filter(k => !lits[k]),
+        // Raw values that leaked into the page, e.g. replaceChildren(x, null).
+        leaks: sr ? [...sr.querySelectorAll(':not(style)')].flatMap(n => [...n.childNodes])
+          .filter(c => c.nodeType === 3 && /\b(null|undefined|NaN)\b|\[object /.test(c.data)).map(c => c.data.trim().slice(0, 60)) : [],
       };
     }, t);
     checked++;
@@ -53,6 +56,7 @@ for (const t of targets.filter(t => !only.length || only.includes(t.scene))) {
     if (!r.mounted) problems.push(`${id}: did not mount`);
     if (!r.focusables) problems.push(`${id}: no focusable controls`);
     if (r.overflow > 2) problems.push(`${id}: overflows by ${r.overflow}px`);
+    for (const l of r.leaks) problems.push(`${id}: leaked raw value "${l}"`);
     if (width === 1280 && r.missing.length) problems.push(`${id}: literacies missing ${r.missing.join(', ')}`);
     for (const e of errors.filter(e => !/favicon/.test(e))) problems.push(`${id}: ${e.split('\n')[0]}`);
     await ctx.close();
