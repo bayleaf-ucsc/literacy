@@ -1,0 +1,16 @@
+# Files that are part of the repository but not of the published site.
+# AGENTS.md and README.md are published on purpose: the essay argues for
+# legible, agent-readable sources, so its own are served too.
+.git
+.gitignore
+.assetsignore
+.dev.vars
+.dev.vars.example
+.openchamber
+.wrangler
+.DS_Store
+node_modules
+wrangler.jsonc
+scripts
+images/make-og-card.py
+SPINS.md

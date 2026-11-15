@@ -1,0 +1,16 @@
+// An assets-only Worker: the essay is static files and nothing else. No Worker
+// script runs, nothing is logged (observability off), and readers' progress
+// never leaves their browser. Deploy with `npx wrangler deploy` from this folder.
+{
+  "name": "bayleaf-literacy",
+  "account_id": "1a49fb69291d42e23c4ed4dcffce5bbc",
+  "compatibility_date": "2026-11-14",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "literacy.bayleaf.dev", "custom_domain": true }],
+  "assets": {
+    // The repo root is the site; .assetsignore keeps tooling and drafts out.
+    "directory": "."
+  },
+  "observability": { "enabled": false }
+}

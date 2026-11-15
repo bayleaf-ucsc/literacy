@@ -76,6 +76,23 @@ Text-only smoke test over every explorable at 1280px and 360px: it mounts behind
 prediction, logs no errors, has focusable controls, doesn't overflow, and declares all
 three literacies.
 
+## Deploy
+
+An assets-only Cloudflare Worker (`wrangler.jsonc`, following BayLeaf Pouch) serves the
+repo root at `https://literacy.bayleaf.dev/`. `.assetsignore` keeps tooling and drafts
+out; `_headers` sets a strict Content-Security-Policy. No Worker code runs and
+observability is off.
+
+```bash
+npx wrangler deploy
+BASE=https://literacy.bayleaf.dev/index.html PLAYWRIGHT=... node scripts/smoke.mjs
+```
+
+Cloudflare's zone-level Web Analytics injects a beacon script into this hostname's
+pages. The CSP blocks it (so nothing is collected, and the console shows one blocked
+script per page). Turning the injection off for this hostname is a zone setting in the
+BayLeaf Cloudflare account.
+
 ## Design spins
 
 `<lit-explore spins="x-tokens-a x-tokens-b">` shows a *design spin* toggle (an authoring aid)
