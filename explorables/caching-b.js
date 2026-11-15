@@ -159,7 +159,7 @@ class CachingB extends Explorable {
       this.guessLabel ? `At turn ${AGENT.guessAt} you guessed ${this.guessLabel.toLowerCase()}. ` : '',
       `By turn ${AGENT.end}, ${Math.round(share * 100)}% of all tokens are cached re-reads. An ideal cache cut the bill from ${fmt.usd(tot.uncached)} to ${fmt.usd(tot.cost)}. Most of the tokens on this receipt are the model re-reading.`));
 
-    this.receipt.replaceChildren(h('h3', {}, '3. The agent\'s receipt'),
+    this.receipt.replaceChildren(...[h('h3', {}, '3. The agent\'s receipt'),
       h('p', { style: { margin: '0 0 0.5rem' } }, `The session starts with ${fmt.n(AGENT.start)} tokens of instructions and files. Each turn adds ${fmt.n(AGENT.perTurn)} new tokens and the model writes ${AGENT.out}.`),
       rows.length ? h('div', { style: { overflowX: 'auto' } }, h('table', {},
         h('thead', {}, h('tr', {}, h('th', {}, 'turn'), h('th', {}, 'cached'), h('th', {}, 'fresh'), h('th', {}, 'output'), h('th', {}, 'cost'))),
@@ -168,7 +168,7 @@ class CachingB extends Explorable {
         h('div', { class: 'row', style: { justifyContent: 'space-between', marginTop: '0.4rem' } }, h('span', {}, 'Cached share of all tokens'), h('strong', { class: 'num' }, `${Math.round(share * 100)}%`)),
         h('div', { class: 'meter' }, h('div', { style: { width: `${share * 100}%` } }), h('span', { title: '90%' })),
         h('div', { class: 'muted num', style: { fontSize: '0.8rem' } }, `Total ${fmt.usd(tot.cost)} with caching, ${fmt.usd(tot.uncached)} without. Illustrative prices per million tokens: cached $${PRICE.cached.toFixed(2)}, fresh $${PRICE.fresh.toFixed(2)}, output $${PRICE.out.toFixed(2)}.`)) : null,
-      h('div', { style: { marginTop: '0.6rem' } }, ...controls));
+      h('div', { style: { marginTop: '0.6rem' } }, ...controls)].filter(Boolean));
   }
 
   guessCard(now) {

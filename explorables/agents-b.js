@@ -222,7 +222,7 @@ class AgentsB extends Explorable {
       oninput: () => { lock.disabled = !(input.value !== '' && +input.value > 0); } });
     const lock = h('button', { type: 'button', class: 'primary', disabled: true, onclick: () => {
       this.guess = Math.round(+input.value); this.render(); this.focusNext();
-    } }, 'Lock in');
+    } }, 'Lock in my token estimate');
     return h('div', { class: 'card est' },
       h('strong', {}, 'Estimate first: '),
       `your screen will end up showing about ${SEEN} tokens (your request and a one-line reply). The model's finished context will be about ${(Math.round(FINAL_CTX / 100) * 100).toLocaleString('en-US')} tokens. In total, how many tokens will the model have read?`,

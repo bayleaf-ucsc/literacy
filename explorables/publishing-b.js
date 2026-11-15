@@ -87,11 +87,13 @@ const MODEL_VISITORS = 2;
 const ARCHIVE_BOT = 'ExampleArchiveBot';
 function checkRule(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-  const ua = lines.findIndex(l => /^user-agent:/i.test(l) && l.replace(/^user-agent:\s*/i, '') === ARCHIVE_BOT);
+  if (lines.some(l => /user-agent:.*\S\s+(dis)?allow:/i.test(l))) return 'Put the user-agent and the rule on separate lines, the rule under it.';
+  // Crawlers match their name case-insensitively (RFC 9309).
+  const ua = lines.findIndex(l => /^user-agent:/i.test(l) && l.replace(/^user-agent:\s*/i, '').toLowerCase() === ARCHIVE_BOT.toLowerCase());
   if (ua < 0) return `Start a group with "User-agent: ${ARCHIVE_BOT}" (exact name, so the rule applies to that bot only).`;
   const rules = lines.slice(ua + 1).filter(l => /^(dis)?allow:/i.test(l)).map(l => l.toLowerCase().replace(/\s+/g, ''));
   if (rules.includes('disallow:/')) return '"Disallow: /" shuts the archive out of the whole site, but it may keep the public pages.';
-  if (!rules.some(l => l === 'disallow:/members/' || l === 'disallow:/members')) return 'Add a line under it: "Disallow: /members/".';
+  if (!rules.some(l => /^disallow:\/members\/?\*?$/.test(l))) return 'Add a line under it: "Disallow: /members/".';
   return null;
 }
 
@@ -203,6 +205,8 @@ class PublishingB extends Explorable {
     this.writeBox.replaceChildren(h('div', { class: 'card fb' },
       h('div', {}, h('strong', {}, 'A letter arrives after closing. '), `${ARCHIVE_BOT}, a library's web archive, asks to save your public pages. Members were never asked about archiving their profile pages, so you agree to the public pages only, not /members/. Write its robots.txt lines.`),
       ta, h('div', { class: 'row', style: { marginTop: '0.4rem' } }, btn), msg));
+    // "Desk closed" reads like an ending; this last step is not optional.
+    ta.focus();
   }
 
   finish() {

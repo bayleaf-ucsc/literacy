@@ -181,10 +181,10 @@ class CostsB extends Explorable {
 
     // Count: before reassigning anything, estimate how lopsided the default bill is.
     this.guess = null;
-    this.guessIn = h('input', { type: 'range', min: 0, max: 100, step: 5, value: 30, 'aria-label': 'Your estimate, percent of the bill',
+    this.guessIn = h('input', { type: 'range', min: 0, max: 100, step: 5, value: 30, 'aria-label': 'Your estimate, percent of the bill', 'aria-valuetext': '30 percent',
       oninput: () => { this.guessVal.textContent = `${this.guessIn.value}%`; this.guessIn.setAttribute('aria-valuetext', `${this.guessIn.value} percent`); } });
     this.guessVal = h('span', { class: 'num' }, '30%');
-    this.guessBtn = h('button', { type: 'button', onclick: () => this.lockGuess() }, 'Lock in');
+    this.guessBtn = h('button', { type: 'button', onclick: () => this.lockGuess() }, 'Lock in my estimate');
     this.guessOut = h('p', { class: 'guess-out', 'aria-live': 'polite' });
 
     root.append(

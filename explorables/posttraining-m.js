@@ -48,7 +48,7 @@ const GOALS = [
   ['scaf', 'Write a scaffold: tick at least one example turn'],
   ['stop', 'Add the stop sequence to cut off the overrun'],
   ['copied', 'Find a habit the base model copied from your examples'],
-  ['tells', 'Open four different tells (marked text)'],
+  ['tells', 'Open four different tells (marked text; change the request or scaffold to find more)'],
 ];
 
 // Test snippets: none reuse the lab's requests. Tells may name a lab tell key.
@@ -146,7 +146,7 @@ class PosttrainingM extends Explorable {
     this.baseCtx = h('pre', { class: 'ctx' }); this.baseOut = h('pre', { class: 'outp' });
     this.chatCtx = h('pre', { class: 'ctx' }); this.chatOut = h('pre', { class: 'outp' });
     this.note = h('div', { class: 'card note', 'aria-live': 'polite' }, h('span', { class: 'muted' }, 'Click or tab to any highlighted passage to see what gives it away.'));
-    this.goalEls = GOALS.map(([, t]) => h('li', {}, t));
+    this.goalEls = GOALS.map(([, t]) => h('li', {}, h('span', { class: 'sr' }, 'To do: '), t));
     this.test = h('div', { class: 'card test', 'aria-live': 'polite' });
 
     root.append(
@@ -237,8 +237,8 @@ class PosttrainingM extends Explorable {
     this.chatOut.replaceChildren(...this.segs(this.chatSegs(r), this.stop));
 
     if (!ex.length) this.got.bare = true;
-    if (ex.length && !this.stop) this.got.scaf = true;
-    if (ex.length && this.stop && this.got.scaf) this.got.stop = true;
+    if (ex.length) this.got.scaf = true;
+    if (ex.length && this.stop) this.got.stop = true;
     this.report();
   }
 
@@ -246,7 +246,7 @@ class PosttrainingM extends Explorable {
 
   report() {
     const done = GOALS.filter(([k]) => this.got[k]).length;
-    GOALS.forEach(([k], i) => this.goalEls[i].classList.toggle('done', !!this.got[k]));
+    GOALS.forEach(([k], i) => { this.goalEls[i].classList.toggle('done', !!this.got[k]); this.goalEls[i].firstChild.textContent = this.got[k] ? 'Done: ' : 'To do: '; });
     if (done !== this._lastDone) {
       this._lastDone = done;
       this.progress(done, GOALS.length + CARDS.length, `Lab: ${done} of ${GOALS.length} things tried.`);

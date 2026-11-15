@@ -117,7 +117,7 @@ class PublishingA extends Explorable {
       { label: 'A minority: most of it is markup, scripts and styling', correct: true,
         feedback: 'Right. Even in this small, tidy sample the readable text is a minority, and real pages are often far heavier. An agent reading raw HTML pays for all of it in tokens.' },
     ],
-    after: 'Below, the same fictional site three ways. Estimate the size gap first, then pick a question and drag the reading head until each version reaches the answer.',
+    after: 'Below, the same fictional site three ways. Estimate the size gap first, then pick a question and move the reading head until each version reaches the answer.',
   };
 
   static css = `

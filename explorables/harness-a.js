@@ -50,7 +50,7 @@ class HarnessA extends Explorable {
       { label: 'About the same; the difference is who can follow along', correct: true,
         feedback: 'With equal permissions, bash can do nearly anything these named tools do. The names change legibility: a list of read, search, write tells a story that grep and sed do not.' },
     ],
-    after: 'Estimate first, then drag the timeline. Rate each harness once you reach the reply.',
+    after: 'Estimate first, then move along the timeline. Rate each harness once you reach the reply.',
   };
 
   static literacies = {
@@ -180,7 +180,7 @@ class HarnessA extends Explorable {
     const unseen = [0, 1, 2, 3, 4].filter(i => !this.visited.has(i));
     if (allRated && this.logLine != null && !unseen.length && this.slider.max !== '5') {
       this.slider.max = 5;
-      this.self.replaceChildren(h('div', { class: 'debrief' }, 'Unlocked: drag to moment 6. A week later you ask about a different topic.'));
+      this.self.replaceChildren(h('div', { class: 'debrief' }, 'Unlocked: move to moment 6. A week later you ask about a different topic.'));
     }
     if (p === 5) {
       this.self.replaceChildren(h('div', { class: 'debrief' },
@@ -194,11 +194,11 @@ class HarnessA extends Explorable {
       this.complete('In these transcripts, each harness set what its agent could touch and how easily you could follow it; given a shell, the agent added a command of its own.');
     } else {
       this.progress(done, 11, this.guess == null ? 'Estimate the computer-use calls to start.'
-        : !this.visited.has(4) ? 'Drag the timeline to the reply.'
+        : !this.visited.has(4) ? 'Move the timeline to moment 5, the reply.'
         : !allRated ? `Rate ${3 - Object.keys(this.rated).length} more harness${3 - Object.keys(this.rated).length === 1 ? '' : 'es'}.`
         : this.logLine == null ? 'Write the missing log line for the bash call.'
-        : unseen.length ? `Look at moment${unseen.length === 1 ? '' : 's'} ${unseen.map(i => i + 1).join(', ')} too.`
-        : 'Drag to moment 6.');
+        : unseen.length ? `Step the timeline back to moment${unseen.length === 1 ? '' : 's'} ${unseen.map(i => i + 1).join(', ')} too: each shows a different call.`
+        : 'Move to moment 6.');
     }
   }
 }

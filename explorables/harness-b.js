@@ -185,7 +185,7 @@ class HarnessB extends Explorable {
       h('div', {}, h('span', { class: 'big num' }, '0'), h('small', {}, 'operations the model executed directly')),
       h('div', {}, h('span', { class: 'big num' }, String(this.harnessActs)), h('small', {}, 'operations you (the harness) executed')),
       h('div', {}, h('span', { class: 'big num' }, `~${(this.ctx / 1000).toFixed(1)}k`), h('small', {}, 'tokens in context (rough)')));
-    this.model.replaceChildren(s
+    this.model.replaceChildren(...s
       ? [h('small', {}, `Model output, request ${this.i + 1} of ${STEPS.length}`), h('code', {}, s.call)]
       : [h('small', {}, 'Model output'), h('code', {}, '(nothing: the turn is over, and the model waits for the next message)')]);
     for (const b of this.actions.children) b.disabled = !s || this.guess == null;

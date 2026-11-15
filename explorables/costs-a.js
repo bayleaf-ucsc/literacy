@@ -20,7 +20,7 @@ const GOALS = [
   ['price', 'Move a price slider'],
   ['tokens', 'Move a tokens-per-task slider'],
   ['lwin', 'Find settings where Model L is the cheaper one per task'],
-  ['even', 'Drag a slider to the break-even point (within 5%)'],
+  ['even', 'Move a slider to the break-even point (within 5%)'],
   ['rule', 'Write your rule of thumb for when to pay more'],
 ];
 // Accepts "20000", "20,000", "20k" or "0.2M".
@@ -54,7 +54,7 @@ class CostsA extends Explorable {
       { label: 'Model S: a 20x price gap is hard to beat', feedback: 'The bill is price times tokens. S pays one twentieth the price for thirty times the tokens, so it spends 30 ÷ 20 = 1.5 times as much as L. A per-token price on its own says nothing about the cost of a task.' },
       { label: 'Model L: 30x fewer tokens outweighs a 20x price', correct: true, feedback: 'Right: the bill is price times tokens. Thirty times fewer tokens beats a twenty times higher price, so L finishes the job for about two thirds of what S spends. A wiser model can be the thrifty one.' },
     ],
-    after: 'Now drag the prices and token counts yourself. This toy bills every token at one blended rate (real bills price input, cached and output tokens differently), and its prices and energy are illustrative, not quotes for real products.',
+    after: 'Now move the prices and token counts yourself. This toy bills every token at one blended rate (real bills price input, cached and output tokens differently), and its prices and energy are illustrative, not quotes for real products.',
   };
 
   static literacies = {
@@ -101,10 +101,10 @@ class CostsA extends Explorable {
       h('button', { type: 'button', onclick: () => this.applyPreset(id) }, p.label));
 
     this.sliders = {};
-    const slider = (key, kind, label) => {
+    const slider = (key, kind, label, model) => {
       const out = h('span', { class: 'num' });
       const input = h('input', {
-        type: 'range', min: 0, max: 1000, step: 1, 'aria-label': `${label}, log scale`,
+        type: 'range', min: 0, max: 1000, step: 1, 'aria-label': `${model}: ${label}, log scale`,
         oninput: () => {
           this.st[key] = fromPos(+input.value, RANGES[key]);
           this.got[kind] = true;
@@ -120,8 +120,8 @@ class CostsA extends Explorable {
       this[`per1k_${m}`] = h('small', {});
       this[`card_${m}`] = h('div', { class: 'card model', 'data-model': m },
         h('h3', {}, title), h('div', { class: 'muted', style: 'font-size:.85rem' }, sub),
-        slider(`p${m.toUpperCase()}`, 'price', 'Price per million tokens'),
-        slider(`t${m.toUpperCase()}`, 'tokens', 'Tokens per task, one rate'),
+        slider(`p${m.toUpperCase()}`, 'price', 'Price per million tokens', title),
+        slider(`t${m.toUpperCase()}`, 'tokens', 'Tokens per task, one rate', title),
         h('div', { class: 'cost' }, h('small', {}, 'Cost per task'), this[`cost_${m}`], this[`per1k_${m}`]));
       return this[`card_${m}`];
     };
@@ -205,6 +205,8 @@ class CostsA extends Explorable {
     this.sliders.pL.out.textContent = price(pL);
     this.sliders.tS.out.textContent = nice(tS).toLocaleString();
     this.sliders.tL.out.textContent = nice(tL).toLocaleString();
+    for (const [key, { input, out }] of Object.entries(this.sliders))
+      input.setAttribute('aria-valuetext', key.startsWith('p') ? `${out.textContent} per million tokens` : `${out.textContent} tokens`);
     this.cost_s.textContent = usd(cS);
     this.cost_l.textContent = usd(cL);
     this.per1k_s.textContent = `${usd(cS * 1000)} per 1,000 tasks`;
@@ -233,7 +235,7 @@ class CostsA extends Explorable {
       : '';
 
     const done = GOALS.filter(([k]) => this.got[k]).length;
-    this.goalList.replaceChildren(...GOALS.map(([k, label]) => h('li', { class: this.got[k] ? 'done' : '' }, label)));
+    this.goalList.replaceChildren(...GOALS.map(([k, label]) => h('li', { class: this.got[k] ? 'done' : '' }, h('span', { class: 'sr' }, this.got[k] ? 'Done: ' : 'To do: '), label)));
     if (done === GOALS.length) {
       this.complete('In this toy, price per token is half the story: cost per task is price times tokens, so a pricier model that takes a shorter path can be the cheaper, and sometimes the lower-energy, choice. Whether either answer is good enough is a separate question.');
     } else if (fromSlider || this.touched || this.preset === 'agent') {

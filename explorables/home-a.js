@@ -68,7 +68,7 @@ class HomeA extends Explorable {
     .roots { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
     .rootbox { border: 1px solid var(--lit-border); border-radius: var(--lit-radius); padding: 0.5rem 0.65rem; background: var(--lit-surface); }
     .rootbox[data-active] { border-color: var(--lit-work); box-shadow: inset 0 0 0 1px var(--lit-work); background: var(--lit-work-tint); }
-    .rootbox h4 { margin: 0; font-size: 0.95rem; }
+    .rootbox h3 { margin: 0; font-size: 0.95rem; }
     .rootbox .prov { font-size: 0.82rem; color: var(--lit-muted); }
     .rootbox button { margin-top: 0.35rem; font-size: 0.82rem; padding: 0.15rem 0.5rem; }
     .rootbox p { margin: 0.4rem 0 0; font-size: 0.85rem; }
@@ -101,12 +101,13 @@ class HomeA extends Explorable {
     this.route = h('div', { class: 'card route', 'aria-live': 'polite' });
     this.boxes = ROOTS.map(r => {
       const p = h('p', { hidden: true }, r.text);
-      const btn = h('button', { type: 'button', 'aria-expanded': 'false', onclick: () => {
+      const btn = h('button', { type: 'button', 'aria-expanded': 'false', 'aria-label': `What do you trust? ${r.root}`, onclick: () => {
         const open = p.hidden; p.hidden = !open; btn.setAttribute('aria-expanded', String(open));
         btn.textContent = open ? 'Hide' : 'What do you trust?';
+        btn.setAttribute('aria-label', `${btn.textContent} ${r.root}`);
         if (open) { this.read.add(r.id); this.update(true, false); }
       } }, 'What do you trust?');
-      const el = h('div', { class: 'rootbox' }, h('h4', {}, r.root), h('div', { class: 'prov' }, r.provider), btn, p);
+      const el = h('div', { class: 'rootbox' }, h('h3', {}, r.root), h('div', { class: 'prov' }, r.provider), btn, p);
       return { id: r.id, el };
     });
     this.goals = h('p', { class: 'goals muted' });

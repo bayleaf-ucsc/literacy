@@ -78,7 +78,7 @@ class DistributionsB extends Explorable {
     const word = h('input', { type: 'text', maxlength: 24, autocomplete: 'off', 'aria-label': 'The next word you would write', oninput: () => refresh() });
     const norm = () => { const z = w.reduce((a, b) => a + b, 0) || 1; return w.map(x => x / z); };
     const refresh = () => {
-      norm().forEach((p, j) => { outs[j].textContent = pct(p); });
+      norm().forEach((p, j) => { outs[j].textContent = pct(p); sliders[j].setAttribute('aria-valuetext', `weight ${w[j]}, ${pct(p)} after scaling`); });
       const ok = touched && w.some(x => x > 0) && word.value.trim();
       lock.disabled = !ok;
       hint.textContent = ok ? 'Your weights are scaled to add up to 100%.' : !word.value.trim() ? 'Write your next word, and move at least one slider.' : 'Move at least one slider.';

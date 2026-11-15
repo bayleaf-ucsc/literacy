@@ -136,9 +136,9 @@ class CachingA extends Explorable {
       const g = +est.value; est.disabled = lock.disabled = true;
       this.inputs.forEach(i => { i.disabled = false; });
       estNote.replaceChildren(`You estimated ${fmt.usd(g)}; it costs ${fmt.usd(to)}, ${closeness(g, to)}. `,
-        `Doubling the turns multiplied the bill by ${(to / from).toFixed(1)}, not 2: each added turn re-reads a longer context. Drag Turns to ${EST_TO} to see it.`);
+        `Doubling the turns multiplied the bill by ${(to / from).toFixed(1)}, not 2: each added turn re-reads a longer context. Set Turns to ${EST_TO} to see it.`);
       this.goals.estimate = true; this.update(); this.inputs[0].focus();
-    } }, 'Lock in');
+    } }, 'Lock in my estimate');
     const estCard = h('div', { class: 'card est', style: { marginBottom: '0.75rem' } },
       h('strong', {}, 'Estimate first: '),
       `at the starting sizes below, a ${EST_FROM}-turn session costs ${fmt.usd(from)} with caching on. What does a ${EST_TO}-turn session cost?`,

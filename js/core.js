@@ -46,10 +46,10 @@ function renderPrediction(host, prediction, key, onAnswered) {
   const box = el('div');
   const q = el('p', { class: 'lit-q' }, prediction.question);
   const opts = el('div', { class: 'lit-options', role: 'group', 'aria-label': 'Your prediction' });
-  const fb = el('div', { class: 'lit-feedback', 'aria-live': 'polite', hidden: true });
+  const fb = el('div', { class: 'lit-feedback', tabindex: '-1', hidden: true });
   const answer = (i, silent) => {
     const o = prediction.options[i];
-    [...opts.children].forEach((b, j) => { b.disabled = true; if (j === i) b.setAttribute('data-picked', ''); });
+    [...opts.children].forEach((b, j) => { b.disabled = true; b.setAttribute('aria-pressed', String(j === i)); if (j === i) b.setAttribute('data-picked', ''); });
     fb.hidden = false;
     fb.replaceChildren(
       el('strong', { 'data-right': String(!!o.correct) }, o.correct ? 'Good prediction. ' : 'Not quite. '),
@@ -58,6 +58,7 @@ function renderPrediction(host, prediction, key, onAnswered) {
     );
     if (!silent) progress.set(key, { pick: i, correct: !!o.correct });
     onAnswered?.(i, !!o.correct);
+    if (!silent) fb.focus();
   };
   prediction.options.forEach((o, i) => opts.append(el('button', { type: 'button', onclick: () => answer(i) }, o.label)));
   box.append(q, opts, fb);
@@ -72,10 +73,12 @@ function renderPrediction(host, prediction, key, onAnswered) {
 //   static literacies = { read: '...', write: '...', count: '...' }
 // A missing entry shows as a dimmed badge, which makes gaps visible.
 export const LITERACIES = [['read', 'Read'], ['write', 'Write'], ['count', 'Count']];
+literacyBadges.n = 0;
 function literacyBadges(lits = {}) {
   const detail = el('p', { class: 'lit-acts-detail', 'aria-live': 'polite', hidden: true });
   let open = null;
-  const row = el('div', { class: 'lit-acts', role: 'group', 'aria-label': 'What this exercise asks of you' },
+  const lead = el('span', { class: 'lit-acts-lead', id: `lit-acts-${++literacyBadges.n}` }, 'This exercise asks you to');
+  const row = el('div', { class: 'lit-acts', role: 'group', 'aria-labelledby': lead.id }, lead,
     ...LITERACIES.map(([id, label]) => el('button', {
       type: 'button', 'data-act': id, 'data-has': String(!!lits[id]), 'aria-expanded': 'false',
       onclick: e => {
@@ -304,6 +307,16 @@ class LitCourse extends HTMLElement {
     return gates;
   }
 
+  // The pending gates in words, so a blocked Continue says what is left.
+  todo(scene) {
+    const xs = [...scene.querySelectorAll('lit-explore')];
+    const name = x => x.matches('lit-readcheck') ? 'mark the lesson read'
+      : x.matches('lit-predict') ? 'make the prediction'
+      : x.matches('lit-stance') ? 'take a stance'
+      : xs.length > 1 ? `finish exercise ${xs.indexOf(x) + 1} of ${xs.length}` : 'finish the exercise';
+    return this.pending(scene).map(name).join(', ');
+  }
+
   // A disabled-looking Continue still takes clicks: it wiggles what is left to do.
   nudge(items) {
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -356,7 +369,7 @@ class LitCourse extends HTMLElement {
       const stanceLeft = [...s.querySelectorAll('lit-readcheck, lit-explore, lit-predict')].every(x => x.done);
       hint.textContent = stanceLeft
         ? 'One more thing: the argument wants your stance before you move on.'
-        : 'Work this scene to continue in order, or jump anywhere from the contents.';
+        : `Still to do: ${this.todo(s)}. Or jump anywhere from the contents.`;
       hint.hidden = ok;
     }
   }
@@ -441,11 +454,12 @@ class LitReadcheck extends HTMLElement {
   }
   render() {
     this.scene?.toggleAttribute('data-read', this.done);
-    if (this.done) { this.replaceChildren(el('p', { class: 'lit-readcheck-done' }, 'You marked the lesson as read. The work is below.')); return; }
+    if (this.done) { this.replaceChildren(el('p', { class: 'lit-readcheck-done', tabindex: '-1' }, 'You marked the lesson as read. The work is below.')); return; }
     this.replaceChildren(el('div', { class: 'lit-readcheck' },
       el('p', {}, 'Read the lesson above, then open the exercises.'),
       el('button', { type: 'button', onclick: () => {
         this.done = true; progress.set(this.key, true); this.render();
+        this.firstElementChild.focus();
         this.dispatchEvent(new CustomEvent('lit-worked', { bubbles: true }));
       } }, "I've read it: show me the work")));
   }
@@ -476,7 +490,10 @@ class LitStance extends HTMLElement {
     this.done = !!saved;
     const other = el('input', { class: 'lit-stance-input', type: 'text', placeholder: 'finish the sentence yourself',
       'aria-label': `${this.stem} (in your own words)`, value: saved?.pick === 'other' ? saved.label : '' });
-    const saveOther = () => { const t = other.value.trim(); if (t) this.choose({ pick: 'other', label: t }); };
+    // Readers often retype the stem's last word ("…, I" + "I ask …"); drop the repeat.
+    const last = this.stem.trim().split(/\s+/).pop() || '';
+    const tidy = t => t.toLowerCase().startsWith(last.toLowerCase() + ' ') ? t.slice(last.length + 1).trim() : t;
+    const saveOther = () => { const t = tidy(other.value.trim()); if (t) this.choose({ pick: 'other', label: t }); };
     other.addEventListener('keydown', e => { if (e.key === 'Enter') saveOther(); });
     this.replaceChildren(el('div', { class: 'lit-stance' },
       el('p', { class: 'lit-stance-q' }, 'Where do you stand? ', el('span', { class: 'stem' }, `${this.stem} …`)),

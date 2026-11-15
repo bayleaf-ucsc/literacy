@@ -238,10 +238,12 @@ class RetentionB extends Explorable {
     } }, 'Send note');
     compose();
     this.tell.replaceChildren(h('div', { class: 'card tell' },
-      h('div', {}, h('strong', {}, 'Write to the student. '), 'The essay is theirs and they were not asked. Decide what you will do, then write the note. If a setup is involved, say both who could read the essay a month from now and who could read it while it was answered.'),
+      h('div', {}, h('strong', {}, 'Last step: write to the student. '), 'The essay is theirs and they were not asked. Decide what you will do, then write the note. If a setup is involved, say both who could read the essay a month from now and who could read it while it was answered.'),
       h('p', { style: { margin: '0.4rem 0 0' } }, 'I will ', route, '.'),
       sentence,
       h('div', { class: 'row', style: { marginTop: '0.4rem' } }, btn), msg));
+    // The tally above can read like an ending; this last step is not optional.
+    route.focus();
   }
 
   render() {

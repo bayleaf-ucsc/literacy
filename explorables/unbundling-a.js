@@ -158,11 +158,12 @@ class UnbundlingA extends Explorable {
           h('span', { class: 'row' },
             this.opened.has(key) ? h('span', { class: 'seen' }, 'read') : null,
             h('button', { type: 'button', 'data-key': `note-${L}`, 'aria-expanded': String(open),
+              'aria-label': `${open ? 'Hide note' : 'How it came apart'}: ${era.names[L].toLowerCase()}`,
               onclick: () => { this.openNote = open ? null : key; this.opened.add(key); this.render(); } }, open ? 'Hide note' : 'How it came apart'))),
         loose ? select : h('div', { class: 'muted' }, era.options[L].find(([v]) => v === s[L])[1]),
         open ? h('p', { class: 'note' }, era.notes[L]) : null);
     });
-    this.stack.replaceChildren(apart < 100 ? h('div', { class: 'bundle-tag' }, era.bundle) : null, ...layers);
+    this.stack.replaceChildren(...(apart < 100 ? [h('div', { class: 'bundle-tag' }, era.bundle)] : []), ...layers);
     if (apart < 100) this.stack.firstChild.style.opacity = String(1 - apart / 100);
 
     const total = era.options.client.length * era.options.access.length * era.options.content.length;
@@ -182,14 +183,17 @@ class UnbundlingA extends Explorable {
       loose ? h('div', { class: 'verdict', 'data-ok': String(!why), role: 'status' },
         why ? `Will not work: ${why}` : era.offBundle(s)
           ? 'Works, and nothing in this stack comes from the original bundle.'
-          : 'Works. Try swapping every layer away from the original company.') : null);
+          : 'Works. Try swapping every layer away from the original company.') : '');
 
     const done = this.opened.size + this.unbundled.size + Object.keys(this.est).length + (this.freed ? 1 : 0);
     if (done >= 11) {
       this.complete('Once the layers come apart, a common API lets you swap client and provider, and open weights (within their license and your hardware) let others host the model, a different freedom from the open protocols that freed the ISP.');
     } else {
       const left = [];
-      if (this.opened.size < 6) left.push(`${6 - this.opened.size} notes to read`);
+      if (this.opened.size < 6) {
+        const here = [...this.opened].filter(k => k.startsWith(`${this.era}:`)).length;
+        left.push(here < 3 ? `${6 - this.opened.size} notes to read` : `${6 - this.opened.size} notes to read in the other era`);
+      }
       if (this.unbundled.size < 2) left.push(`pull ${2 - this.unbundled.size === 2 ? 'both eras' : 'the other era'} fully apart`);
       const unguessed = Object.keys(ERAS).filter(k => this.est[k] == null).length;
       if (unguessed) left.push(`estimate the working stacks in ${unguessed === 2 ? 'both eras' : 'one more era'}`);

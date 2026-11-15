@@ -186,6 +186,10 @@ class SkillsB extends Explorable {
       !done && allOk ? h('div', { class: 'row', style: { marginTop: '0.5rem' } },
         h('button', { type: 'button', class: 'primary', onclick: () => this.next() },
           this.stage === CLIENTS.length - 1 ? 'Finish' : 'Next person')) : null,
+      !done && !allOk ? h('p', { class: 'muted', style: { margin: '0.5rem 0 0', fontSize: '0.85rem' } },
+        hidden ? 'Make your estimate first.'
+          : stale ? 'Start a new session so the agent loads your edited file.'
+          : 'Tick and untick lines in the file until every check above says met, then start a new session.') : null,
     ].filter(Boolean));
 
     this.staleBox.replaceChildren(

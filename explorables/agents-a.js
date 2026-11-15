@@ -170,7 +170,7 @@ class AgentsA extends Explorable {
       this.toggles.forEach(b => { b.disabled = false; });
       this.estNote.textContent = `Locked in: ${this.guess} s. Now switch both on to find out.`;
       this.toggles[0].focus(); this.report();
-    } }, 'Lock in');
+    } }, 'Lock in my time estimate');
     this.estNote = h('div', { class: 'muted', style: { fontSize: '0.85rem', marginTop: '0.3rem' }, 'aria-live': 'polite' }, 'The switches unlock once you estimate.');
     const estCard = h('div', { class: 'card est', style: { marginTop: '0.75rem' } },
       h('strong', {}, 'Estimate first: '),
@@ -259,14 +259,14 @@ class AgentsA extends Explorable {
     const opts = h('div', { class: 'opts' }, ...Object.keys(NAME).map(k => h('button', { type: 'button', disabled: true, onclick: e => {
       const c = CHOICE[k];
       fb.replaceChildren(h('strong', { class: c.ok ? 'met' : 'missed' }, `${NAME[k]}: `), c.why);
-      if (!c.ok) { e.currentTarget.disabled = true; return; }
+      if (!c.ok) { e.currentTarget.disabled = true; this.rejected = true; this.report(); return; }
       this.chose = k; opts.querySelectorAll('button').forEach(b => { b.disabled = true; });
       this.report();
     } }, NAME[k])));
     this.chooseBtns = opts;
     return h('div', { class: 'card choose', style: { marginTop: '0.75rem' } },
       h('strong', {}, 'Which setting would you use for this request?'),
-      h('div', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Unlocks once you have tried all four. More than one answer is reasonable.'),
+      h('div', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Unlocks once you have tried all four switch combinations above. More than one answer is reasonable.'),
       opts, fb);
   }
 
@@ -284,9 +284,9 @@ class AgentsA extends Explorable {
     if (this.guess == null) need.push('make your estimate');
     else if (!this.guessShown) need.push('switch both on to check your estimate');
     if (!this.callOk) need.push('write the tool call');
-    if (this.tried.size < 4) need.push(`${this.tried.size} of 4 settings tried`);
+    if (this.tried.size < 4) need.push(`switch combinations tried: ${this.tried.size} of 4 (not yet: ${Object.keys(NAME).filter(k => !this.tried.has(k)).map(k => NAME[k].toLowerCase()).join(', ')})`);
     if (kinds < 3) need.push(`open a reasoning block, a tool call and a tool result (${kinds} of 3)`);
-    if (this.chose == null) need.push('choose a setting for this request');
+    if (this.chose == null) need.push(this.rejected ? 'choose another setting for this request: that one did not hold up' : 'choose a setting for this request');
     this.progress(done, 10, need.join('; ') + '.');
   }
 }
