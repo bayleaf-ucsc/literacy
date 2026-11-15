@@ -100,6 +100,27 @@ repo root at `https://literacy.bayleaf.dev/`. `.assetsignore` keeps tooling and 
 out; `_headers` sets a strict Content-Security-Policy. No Worker code runs and
 observability is off.
 
+Pushes to `main` deploy through `.github/workflows/deploy.yml`. The workflow can
+also be run manually from GitHub Actions (on `main` only). Deploys are serialized
+without interrupting an in-progress upload; workflow actions and Wrangler are pinned.
+There is no build step.
+
+Repository Actions secrets:
+
+- `CLOUDFLARE_ACCOUNT_ID`: the BayLeaf account ID, also in `wrangler.jsonc` and local
+  `.dev.vars`. It is an identifier, not a credential.
+- `CLOUDFLARE_API_TOKEN`: the account-owned `literacy-github-actions` token, with
+  **Workers Scripts Write** and **Account Settings Read** in BayLeaf, and
+  **Workers Routes Write** for `bayleaf.dev` only. This permits editing other
+  Workers in the account, not just this site. It has no expiration; revoke or
+  rotate it when retiring or changing this automation. Do not use a local CLI
+  OAuth bearer in CI.
+
+The site needs no runtime secrets. `.dev.vars` is ignored by Git and excluded from
+published assets, as are the workflow files. Never commit a deployment token.
+
+For a manual deployment using your local Wrangler login (or explicit token):
+
 ```bash
 npx wrangler deploy
 BASE=https://literacy.bayleaf.dev/index.html PLAYWRIGHT=... node scripts/smoke.mjs

@@ -2,6 +2,7 @@
 # AGENTS.md and README.md are published on purpose: the essay argues for
 # legible, agent-readable sources, so its own are served too.
 .git
+.github
 .gitignore
 .assetsignore
 .dev.vars
