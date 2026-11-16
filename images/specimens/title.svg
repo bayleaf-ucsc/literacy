@@ -1,0 +1,24 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- At Adam's direction, we follow printing from institutional order to
+     zinemaking. These are ornaments, not diagrams of model architecture.
+     Here the locked forme and the folded booklet share the same three inks. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 400 120" width="400" height="120" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="specimen-title-paper" x2=".8" y2="1">
+      <stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/>
+    </linearGradient>
+  </defs>
+  <path class="specimen-shadow" d="M26 22h140v84H26zm230 12 47-9 65 14v67l-65-14-47 9z"/>
+  <path fill="url(#specimen-title-paper)" stroke="none" d="M22 18h140v84H22zm230 12 47-9 65 14v67l-65-14-47 9z"/>
+  <path d="M22 18h140v84H22zM28 24h128v72H28zM92 24v72M28 60h128"/>
+  <path class="teach" d="M38 34h44M38 42h44M38 50h30M102 34h44M102 42h30M102 50h44"/>
+  <path class="work" d="M38 70h18v16H38zM64 70h18v16H64zM102 70h44M102 78h32M102 86h40"/>
+  <path class="argue" d="M12 13v10M7 18h10M172 97v10M167 102h10"/>
+  <path d="M190 60h32M201 54v12M211 54v12"/>
+  <path d="m252 30 47-9 65 14v67l-65-14-47 9zM299 21v67M246 37v66l53-9 71 14V42"/>
+  <path class="teach" d="m262 41 26-5m-26 13 26-5m-26 13 19-4"/>
+  <path class="work" d="m310 39 41 9m-41 0 41 9m-41 0 29 6"/>
+  <path class="argue" d="m263 74 24-5m24 2 40 9M296 41h6M296 70h6"/>
+  <path class="specimen-wear" d="M25 87v12h12m218-11 12-3m85 10 9 2"/>
+</svg>

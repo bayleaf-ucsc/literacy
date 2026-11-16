@@ -1,0 +1,120 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- VI: for readers who came all this way. A tabletop platen press inks in
+     all three thread colors; its nameplate reads 127.0.0.1. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 320 180" width="320" height="180" role="img" aria-labelledby="specimen-vi-title specimen-vi-desc" focusable="false">
+  <title id="specimen-vi-title">A press of your own</title>
+  <desc id="specimen-vi-desc">A tabletop platen press on a wooden bench, its round ink disk carrying blue, green and rust ink and its nameplate reading 127.0.0.1. Beside it the first issue of a stapled zine lies open on a stack of copies, and two fresh sheets dry on a line.</desc>
+  <defs>
+  <linearGradient id="specimen-vi-paper" x2=".6" y2="1"><stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient>
+  <linearGradient id="specimen-vi-gutter-l"><stop class="specimen-paper-light"/><stop offset=".75" class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient>
+  <linearGradient id="specimen-vi-gutter-r" x1="1" x2="0"><stop class="specimen-paper-light"/><stop offset=".75" class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient>
+  <linearGradient id="specimen-vi-iron" x2=".9" y2=".6"><stop class="specimen-metal-light"/><stop offset="1" class="specimen-metal-dark"/></linearGradient>
+  <linearGradient id="specimen-vi-wood" x2="0" y2="1"><stop class="specimen-wood-light"/><stop offset="1" class="specimen-wood-dark"/></linearGradient>
+  <radialGradient id="specimen-vi-sheen" cx=".35" cy=".3" r=".7"><stop class="specimen-sheen" stop-opacity=".45"/><stop offset="1" class="specimen-sheen" stop-opacity="0"/></radialGradient>
+  </defs>
+  <!-- the morning's sheets, drying on a line of your own -->
+  <path stroke-width="1" d="M188 12q62 12 124 0"/>
+  <g transform="rotate(-3 215 17)">
+  <path class="specimen-shadow" d="M201 21h36v48h-36z"/>
+  <path fill="url(#specimen-vi-paper)" d="M198 18h36v48h-36z"/>
+  <path stroke-width="1" d="M198 18h36v48h-36z"/>
+  <path class="argue" stroke-width="2.4" stroke-linecap="butt" d="M203 27h22"/>
+  <path class="teach" stroke-width="1" d="M203 35h26m-26 4h26m-26 4h20m-20 4h26m-26 4h14"/>
+  <path class="work" stroke-width="1" d="M203 59h18"/>
+  <path fill="var(--lit-surface)" d="M212 12h5v10h-5z"/>
+  <path stroke-width="1" d="M212 12h5v10h-5z"/>
+  </g>
+  <g transform="rotate(2.5 266 18)">
+  <path class="specimen-shadow" d="M251 22h36v48h-36z"/>
+  <path fill="url(#specimen-vi-paper)" d="M248 19h36v48h-36z"/>
+  <path stroke-width="1" d="M248 19h36v48h-36z"/>
+  <text x="266" y="46" text-anchor="middle" style="font:500 20px var(--lit-font-body);fill:var(--lit-teach)">Aa</text>
+  <path class="specimen-wear" d="M254 54h24"/>
+  <text x="266" y="61" text-anchor="middle" style="font:5px var(--lit-font-mono);letter-spacing:.1em">SPECIMEN</text>
+  <path fill="var(--lit-surface)" d="M263.5 13h5v10h-5z"/>
+  <path stroke-width="1" d="M263.5 13h5v10h-5z"/>
+  </g>
+  <!-- table -->
+  <path fill="url(#specimen-vi-wood)" d="M6 156h308v10H6z"/>
+  <path d="M6 156h308M6 166h308"/>
+  <path class="specimen-wear" d="M18 159h40m14 0h70m30 3h52m-210 0h28m120-3h60m20 3h38"/>
+  <ellipse class="specimen-shadow" cx="90" cy="155" rx="74" ry="3.5"/>
+  <ellipse class="specimen-shadow" cx="254" cy="155" rx="52" ry="3"/>
+  <g transform="translate(-6 -15.6) scale(1.1)">
+  <!-- roller arms, behind the platen -->
+  <path stroke-width="2.2" d="M70 28c12 30 30 70 42 93m-36-95c12 30 30 68 40 93"/>
+  <circle cx="113" cy="121" r="2" fill="var(--lit-surface)"/>
+  <!-- frame, feet and nameplate -->
+  <path fill="url(#specimen-vi-iron)" fill-rule="evenodd" d="M42 118h86l10 32H32zM56 150q2-15 28-15t28 15z"/>
+  <path d="M42 118h86l10 32H32zM56 150q2-15 28-15t28 15z"/>
+  <path fill="url(#specimen-vi-iron)" d="M30 150h22v6H30zm84 0h24v6h-24z"/>
+  <path d="M30 150h22v6H30zm84 0h24v6h-24z"/>
+  <path fill="var(--lit-surface)" d="M65 121h42v10H65z"/>
+  <path stroke-width="1" d="M65 121h42v10H65z"/>
+  <text x="86" y="128.6" text-anchor="middle" style="font:600 7px var(--lit-font-mono);letter-spacing:.02em">127.0.0.1</text>
+  <!-- bed with its inked forme -->
+  <path fill="url(#specimen-vi-iron)" d="M50 46h16v72H50z"/>
+  <path d="M50 46h16v72H50z"/>
+  <path class="specimen-highlight" d="M52.5 49v66"/>
+  <path fill="var(--lit-surface-2)" d="M66 58h4v48h-4z"/>
+  <path d="M66 58h4v48h-4z"/>
+  <path class="argue" stroke-width="2" stroke-linecap="butt" d="M71 61v5m0 3v8m0 3v4m0 3v9m0 3v6"/>
+  <!-- ink disk: the three inks, mixed on your own press -->
+  <path fill="url(#specimen-vi-iron)" d="M55 38h6v8h-6z"/>
+  <path d="M55 38h6v8h-6z"/>
+  <path fill="url(#specimen-vi-iron)" d="M30 32v3a28 7 0 0 0 56 0v-3z"/>
+  <path d="M30 32v3a28 7 0 0 0 56 0v-3"/>
+  <ellipse cx="58" cy="32" rx="28" ry="7" fill="var(--lit-surface)"/>
+  <g stroke="none" fill-opacity=".85">
+  <path fill="var(--lit-teach)" d="M58 32V25a28 7 0 0 1 24.25 10.5z"/>
+  <path fill="var(--lit-work)" d="M58 32l24.25 3.5a28 7 0 0 1-48.5 0z"/>
+  <path fill="var(--lit-argue)" d="M58 32l-24.25 3.5A28 7 0 0 1 58 25z"/>
+  </g>
+  <ellipse cx="58" cy="32" rx="28" ry="7" fill="url(#specimen-vi-sheen)"/>
+  <ellipse cx="58" cy="32" rx="28" ry="7"/>
+  <!-- rollers resting on the disk -->
+  <circle cx="66" cy="25" r="4" fill="url(#specimen-vi-iron)"/>
+  <circle cx="76" cy="26" r="4" fill="url(#specimen-vi-iron)"/>
+  <path d="M70 25a4 4 0 1 1-8 0 4 4 0 1 1 8 0m10 1a4 4 0 1 1-8 0 4 4 0 1 1 8 0M66 25h10"/>
+  <!-- platen, opened, with a fresh sheet in its grippers -->
+  <g transform="rotate(9 100 120)">
+  <path fill="url(#specimen-vi-iron)" d="M96 54h9v66h-9z"/>
+  <path d="M96 54h9v66h-9z"/>
+  <path class="specimen-highlight" d="M98 57v60"/>
+  <path fill="url(#specimen-vi-paper)" d="M92.5 58h3.5v56h-3.5z"/>
+  <path stroke-width="1" d="M92.5 58h3.5v56h-3.5zM91 61h14M91 111h14"/>
+  </g>
+  <circle cx="100" cy="120" r="2.5" fill="var(--lit-surface)"/>
+  <!-- lever and its link to the platen -->
+  <path stroke-width="2" d="M132 104 108 87"/>
+  <path stroke-width="3.6" stroke-linecap="round" d="M124 118c14-20 26-52 36-84"/>
+  <path stroke="var(--lit-argue)" stroke-width="6.5" stroke-linecap="round" d="m157 44 6-20"/>
+  <path class="specimen-highlight" stroke-linecap="round" d="m157.6 40 4.4-14"/>
+  <circle cx="124" cy="118" r="4" fill="url(#specimen-vi-iron)"/>
+  <circle cx="124" cy="118" r="4"/>
+  <circle cx="132" cy="104" r="1.8" fill="var(--lit-surface)"/>
+  </g>
+  <!-- composing stick with a line of type set -->
+  <path class="specimen-shadow" d="M152 154h50v2h-50z"/>
+  <path fill="url(#specimen-vi-iron)" d="M148 150h52v4h-52zM148 143h3v11h-3zM173 145h3v9h-3z"/>
+  <path stroke-width="1" d="M148 150h52v4h-52zM148 143h3v11h-3zM173 145h3v9h-3z"/>
+  <path fill="var(--lit-surface)" stroke-width=".7" d="M151.5 145.5h2.6v4.5h-2.6zm2.9 0h2.6v4.5h-2.6zm2.9 0h1.6v4.5h-1.6zm1.9 0h2.6v4.5h-2.6zm2.9 0h2.6v4.5h-2.6zm2.9 0h2.6v4.5h-2.6zm2.9 0h2.4v4.5h-2.4z"/>
+  <!-- a short run of copies, one open on top -->
+  <path fill="url(#specimen-vi-paper)" d="M204 145h96l2 11H202z"/>
+  <path d="M204 145h96l2 11H202z"/>
+  <path class="specimen-wear" d="M203 148.5h98m-98 3h98m-99 2.5h100"/>
+  <path class="specimen-shadow" d="M212 118l40-6 42 6 6 28H206z"/>
+  <path fill="url(#specimen-vi-gutter-l)" d="M214 116l38-6v30l-46 6z"/>
+  <path fill="url(#specimen-vi-gutter-r)" d="M252 110l40 6 8 30-48-6z"/>
+  <path d="M214 116l38-6 40 6 8 30-48-6-46 6zM252 110v30"/>
+  <path class="argue" stroke-width="1.6" d="M249 116.5h6m-6 16h6"/>
+  <text transform="translate(218 126) skewY(-8.8)" style="font:italic 600 9px var(--lit-font-body);fill:var(--lit-teach)">No. 1</text>
+  <path class="teach" d="m219 131 26-4m-26 9 26-4m-27 9 18-2.7"/>
+  <g transform="translate(262 116) skewY(8.5)">
+  <path fill="var(--lit-work-tint)" class="work" d="M2 12c4-8 12-11 20-10-2 8-10 12-20 10z"/>
+  <path class="work" stroke-width="1" d="M2 12 17 5"/>
+  </g>
+  <path class="teach" d="m259 132 30 4.5m-30 .5 24 3.6"/>
+  <path class="specimen-wear" d="M215 118v4m80 1v5"/>
+</svg>

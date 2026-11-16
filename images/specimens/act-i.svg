@@ -1,0 +1,28 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- I: inspect the pieces behind a fluent line. The lens finds boundaries. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 320 180" width="320" height="180" role="img" aria-labelledby="specimen-i-title specimen-i-desc" focusable="false">
+  <title id="specimen-i-title">Reading the pieces</title>
+  <desc id="specimen-i-desc">A printer's magnifying glass examines “read” and “ing” on separate type blocks beside a printed proof.</desc>
+  <defs>
+    <linearGradient id="specimen-i-paper" x2="0.8" y2="1">
+      <stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/>
+    </linearGradient>
+  </defs>
+  <path class="specimen-shadow" d="m36 44 180-10 8 113-180 10z"/>
+  <path fill="url(#specimen-i-paper)" d="m30 36 176-9 8 112-176 9z"/>
+  <path class="teach" d="m46 51 106-6m-105 13 134-7m-133 15 121-7"/>
+  <path d="m47 117 56-3m-56 11 77-4m-76 12 67-4"/>
+  <path class="specimen-wear" d="m38 39 20-1m-19 4 8-1m156 84 6-1m-6 5 6-1"/>
+  <path fill="var(--lit-surface-2)" d="M117 79h70v35h-70zM192 79h47v35h-47z"/>
+  <path fill="url(#specimen-i-paper)" d="M117 73h70v34h-70zM192 73h47v34h-47z"/>
+  <path class="work" d="M123 101h58M198 101h35"/>
+  <text class="specimen-type" x="125" y="96">read</text>
+  <text class="specimen-type" x="198" y="96">ing</text>
+  <circle cx="180" cy="85" r="51" fill="var(--lit-teach-tint)" fill-opacity=".24"/>
+  <circle cx="180" cy="85" r="46"/>
+  <path class="teach" d="M143 62a44 44 0 0 1 32-21"/>
+  <path fill="url(#specimen-i-paper)" d="m216 122 9-9 51 42-11 12z"/>
+  <path class="argue" d="m233 127 30 25m-26-29 30 25"/>
+  <path d="m221 126 8-9"/>
+</svg>

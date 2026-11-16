@@ -1,0 +1,12 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- The closing echo: multiple little editions, with room to differ.
+     This is Adam's printing-to-zinemaking trajectory, not a claim that
+     institutional printing vanished or that tools alone redistribute power. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 200 80" width="200" height="80" aria-hidden="true" focusable="false">
+  <path d="m16 20 42-8 8 47-42 8zM22 24l7 36M78 12h43v49H78zM84 17v39m57-39 42 8-9 47-42-8zM146 23l-7 35"/>
+  <path class="teach" d="m31 29 23-4m-22 11 23-4m-21 11 15-3"/>
+  <path class="work" d="M91 24h22M91 31h22M91 38h15"/>
+  <path class="argue" d="m152 32 20 4m-21 3 20 4m-22 3 14 3"/>
+  <path d="m22 33 4-1m-1 17 4-1M81 27h6M81 46h6m55-12 5 1m-8 17 5 1"/>
+</svg>

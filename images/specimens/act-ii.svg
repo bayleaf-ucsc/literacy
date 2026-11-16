@@ -1,0 +1,51 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- II: every reply re-reads the whole context. Eight turns write eight lines
+     and read thirty-six; the triangle the slips make is the cost. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 320 180" width="320" height="180" role="img" aria-labelledby="specimen-ii-title specimen-ii-desc" focusable="false">
+  <title id="specimen-ii-title">Every reply re-reads everything</title>
+  <desc id="specimen-ii-desc">Eight galley proofs hang from a line, each one line longer than the last. Only the bottom line of each is new; the rest is earlier text, read again. A note sums it up: read 1 + 2 + … + n, write n.</desc>
+  <defs><linearGradient id="specimen-ii-paper" x2="0" y2="1"><stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient></defs>
+  <path class="specimen-shadow" transform="rotate(-1.2 35.0 30)" d="M25 34h26v30.5h-26z"/>
+  <path class="specimen-shadow" transform="rotate(0.9 70.0 30)" d="M60 34h26v43h-26z"/>
+  <path class="specimen-shadow" transform="rotate(-0.6 105.0 30)" d="M95 34h26v55.5h-26z"/>
+  <path class="specimen-shadow" transform="rotate(1.1 140.0 30)" d="M130 34h26v68h-26z"/>
+  <path class="specimen-shadow" transform="rotate(-0.9 175.0 30)" d="M165 34h26v80.5h-26z"/>
+  <path class="specimen-shadow" transform="rotate(0.7 210.0 30)" d="M200 34h26v93h-26z"/>
+  <path class="specimen-shadow" transform="rotate(-1.0 245.0 30)" d="M235 34h26v105.5h-26z"/>
+  <path class="specimen-shadow" transform="rotate(0.5 280.0 30)" d="M270 34h26v118h-26z"/>
+  <path transform="rotate(-1.2 35.0 30)" fill="url(#specimen-ii-paper)" d="M22 30h26v30.5h-26z"/>
+  <path transform="rotate(0.9 70.0 30)" fill="url(#specimen-ii-paper)" d="M57 30h26v43h-26z"/>
+  <path transform="rotate(-0.6 105.0 30)" fill="url(#specimen-ii-paper)" d="M92 30h26v55.5h-26z"/>
+  <path transform="rotate(1.1 140.0 30)" fill="url(#specimen-ii-paper)" d="M127 30h26v68h-26z"/>
+  <path transform="rotate(-0.9 175.0 30)" fill="url(#specimen-ii-paper)" d="M162 30h26v80.5h-26z"/>
+  <path transform="rotate(0.7 210.0 30)" fill="url(#specimen-ii-paper)" d="M197 30h26v93h-26z"/>
+  <path transform="rotate(-1.0 245.0 30)" fill="url(#specimen-ii-paper)" d="M232 30h26v105.5h-26z"/>
+  <path transform="rotate(0.5 280.0 30)" fill="url(#specimen-ii-paper)" d="M267 30h26v118h-26z"/>
+  <path class="teach" transform="rotate(0.9 70.0 30)" d="M62 46.5h11"/>
+  <path class="teach" transform="rotate(-0.6 105.0 30)" d="M97 46.5h16M97 59h14"/>
+  <path class="teach" transform="rotate(1.1 140.0 30)" d="M132 46.5h14M132 59h12M132 71.5h15"/>
+  <path class="teach" transform="rotate(-0.9 175.0 30)" d="M167 46.5h12M167 59h15M167 71.5h16M167 84h13"/>
+  <path class="teach" transform="rotate(0.7 210.0 30)" d="M202 46.5h15M202 59h16M202 71.5h13M202 84h15M202 96.5h11"/>
+  <path class="teach" transform="rotate(-1.0 245.0 30)" d="M237 46.5h16M237 59h13M237 71.5h15M237 84h11M237 96.5h16M237 109h14"/>
+  <path class="teach" transform="rotate(0.5 280.0 30)" d="M272 46.5h13M272 59h15M272 71.5h11M272 84h16M272 96.5h14M272 109h12M272 121.5h15"/>
+  <path class="work" stroke-width="2" transform="rotate(-1.2 35.0 30)" d="M27 46.5h15"/>
+  <path class="work" stroke-width="2" transform="rotate(0.9 70.0 30)" d="M62 59h16"/>
+  <path class="work" stroke-width="2" transform="rotate(-0.6 105.0 30)" d="M97 71.5h12"/>
+  <path class="work" stroke-width="2" transform="rotate(1.1 140.0 30)" d="M132 84h16"/>
+  <path class="work" stroke-width="2" transform="rotate(-0.9 175.0 30)" d="M167 96.5h15"/>
+  <path class="work" stroke-width="2" transform="rotate(0.7 210.0 30)" d="M202 109h16"/>
+  <path class="work" stroke-width="2" transform="rotate(-1.0 245.0 30)" d="M237 121.5h12"/>
+  <path class="work" stroke-width="2" transform="rotate(0.5 280.0 30)" d="M272 134h16"/>
+  <path d="M12 25h296"/>
+  <path fill="var(--lit-surface-2)" d="M32.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M67.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M102.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M137.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M172.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M207.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M242.0 24h6v9h-6z"/>
+  <path fill="var(--lit-surface-2)" d="M277.0 24h6v9h-6z"/>
+  <text class="specimen-sum" x="22" y="128"><tspan class="specimen-ink-teach">read</tspan> 1 + 2 + ⋯ + n</text>
+  <text class="specimen-sum" x="22" y="144"><tspan class="specimen-ink-work">write</tspan> n</text>
+</svg>

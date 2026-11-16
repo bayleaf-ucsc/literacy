@@ -1,0 +1,44 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- III: a mix-and-match flip book. Each strip turns on its own; the data
+     center flips away to show a laptop underneath, a glimpse of Act VI. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 320 180" width="320" height="180" role="img" aria-labelledby="specimen-iii-title specimen-iii-desc" focusable="false">
+  <title id="specimen-iii-title">Mix and match</title>
+  <desc id="specimen-iii-desc">A spiral-bound flip book cut into three strips labelled client, provider and model. Each strip turns separately: the provider strip is mid-turn, a server rack flipping away to reveal a laptop.</desc>
+  <defs><linearGradient id="specimen-iii-paper" x2="0.3" y2="1"><stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient></defs>
+  <defs><linearGradient id="specimen-iii-turn" x2="1"><stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient></defs>
+  <path class="specimen-shadow" d="M50 27H285V65H50z"/>
+  <path fill="var(--lit-surface-2)" d="M46 26H284V64H46z"/>
+  <path fill="var(--lit-surface-2)" d="M46 24H282V62H46z"/>
+  <path fill="url(#specimen-iii-paper)" d="M46 22H280V60H46z"/>
+  <path class="specimen-shadow" d="M50 71H285V109H50z"/>
+  <path fill="var(--lit-surface-2)" d="M46 70H284V108H46z"/>
+  <path fill="var(--lit-surface-2)" d="M46 68H282V106H46z"/>
+  <path fill="url(#specimen-iii-paper)" d="M46 66H280V104H46z"/>
+  <path class="specimen-shadow" d="M50 115H285V153H50z"/>
+  <path fill="var(--lit-surface-2)" d="M46 114H284V152H46z"/>
+  <path fill="var(--lit-surface-2)" d="M46 112H282V150H46z"/>
+  <path fill="url(#specimen-iii-paper)" d="M46 110H280V148H46z"/>
+  <path stroke-width="1.2" d="M52 27a2 2 0 1 0 0 .1M43 28c-6-1-6 4 0 5h9M52 34a2 2 0 1 0 0 .1M43 35c-6-1-6 4 0 5h9M52 41a2 2 0 1 0 0 .1M43 42c-6-1-6 4 0 5h9M52 48a2 2 0 1 0 0 .1M43 49c-6-1-6 4 0 5h9M52 55a2 2 0 1 0 0 .1M43 56c-6-1-6 4 0 5h9M52 71a2 2 0 1 0 0 .1M43 72c-6-1-6 4 0 5h9M52 78a2 2 0 1 0 0 .1M43 79c-6-1-6 4 0 5h9M52 85a2 2 0 1 0 0 .1M43 86c-6-1-6 4 0 5h9M52 92a2 2 0 1 0 0 .1M43 93c-6-1-6 4 0 5h9M52 99a2 2 0 1 0 0 .1M43 100c-6-1-6 4 0 5h9M52 115a2 2 0 1 0 0 .1M43 116c-6-1-6 4 0 5h9M52 122a2 2 0 1 0 0 .1M43 123c-6-1-6 4 0 5h9M52 129a2 2 0 1 0 0 .1M43 130c-6-1-6 4 0 5h9M52 136a2 2 0 1 0 0 .1M43 137c-6-1-6 4 0 5h9M52 143a2 2 0 1 0 0 .1M43 144c-6-1-6 4 0 5h9"/>
+
+  <path fill="var(--lit-surface)" d="M160 29h46v25h-46z"/>
+  <path d="M160 29h46v25h-46zM160 35h46"/>
+  <path class="teach" d="M165 41h22m-6 6h20"/>
+  <path class="argue" stroke-width="2" d="M164 32h1m3 0h1m3 0h1"/>
+  <path fill="var(--lit-surface)" d="M166 71h36v22h-36z"/>
+  <path d="M166 71h36v22h-36zM160 96h48l-4 4h-40z"/>
+  <path class="work" d="M171 78h20m-20 5h26m-26 5h14"/>
+  <path fill="var(--lit-surface)" d="M160 116h46v26h-46z"/>
+  <path d="M160 116h46v26h-46zM160 124.7h46M160 133.3h46M171.5 116v26M183 116v26M194.5 116v26"/>
+  <path class="argue" d="M164 121h4m-4-1v2m15-1h3m11 0h4m-3 9h3m-27 0h4m14 8h3m11 0h4"/>
+  <path class="specimen-shadow" d="M46 66L150 69V101L46 104z"/>
+  <path fill="url(#specimen-iii-turn)" d="M46 66L140 57V113L46 104z"/>
+  <path d="M46 66L140 57V113L46 104"/>
+  <path fill="var(--lit-surface)" d="M95 70.8L120 69.3V100.7L95 99.2z"/>
+  <path d="M95 70.8L120 69.3V100.7L95 99.2zM95 80.3L120 79.8M95 89.7L120 90.2"/>
+  <path class="work" stroke-width="2" d="M115 74.8h1m-1 10.2h1m-1 10.2h1"/>
+  <path class="specimen-wear" d="M50 26h14m-14 4h6M270 140h6v-6M270 56h6v-6"/>
+  <text class="specimen-label" x="270" y="44.5" text-anchor="end">CLIENT</text>
+  <text class="specimen-label" x="270" y="88.5" text-anchor="end">PROVIDER</text>
+  <text class="specimen-label" x="270" y="132.5" text-anchor="end">MODEL</text>
+</svg>

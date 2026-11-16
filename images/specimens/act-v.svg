@@ -1,0 +1,63 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- V: two readers you didn't invite. Cut-out letters pasted into a page
+     your agent reads (injection); a carbon copy filed beyond the boundary
+     (retention). Neither is a claim about any particular provider. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 320 180" width="320" height="180" role="img" aria-labelledby="specimen-v-title specimen-v-desc" focusable="false">
+  <title id="specimen-v-title">Readers you didn't invite</title>
+  <desc id="specimen-v-desc">A page carries a pasted-in line of cut-out letters spelling OBEY, an instruction smuggled into something meant only to be read. Its carbon copy crosses a dashed boundary into a filing drawer labelled KEPT.</desc>
+  <defs>
+  <linearGradient id="specimen-v-paper" x2=".8" y2="1"><stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/></linearGradient>
+  <linearGradient id="specimen-v-steel" x2="0" y2="1"><stop class="specimen-paper-shade"/><stop offset="1" class="specimen-paper-light"/></linearGradient>
+  </defs>
+  <g transform="rotate(-2 82 86)">
+  <path class="specimen-shadow" d="M32 30h116v130H32z"/>
+  <path fill="var(--lit-teach-tint)" d="M33 29h112v128H33z"/>
+  <path fill="url(#specimen-v-paper)" d="M24 20h116v128H24z"/>
+  <path class="teach" d="M36 36h84M36 46h92M36 56h66M36 108h88M36 118h76"/>
+  <path class="work" d="M36 134h52"/>
+  <g class="specimen-ransom">
+  <path fill="var(--lit-argue-tint)" stroke="var(--lit-argue)" stroke-width=".8" transform="rotate(-6 46 82)" d="M38 72h16v19H38z"/>
+  <path fill="var(--lit-surface)" stroke="var(--lit-argue)" stroke-width=".8" transform="rotate(5 64 83)" d="M56 74h16v18H56z"/>
+  <path fill="var(--lit-argue-tint)" stroke="var(--lit-argue)" stroke-width=".8" transform="rotate(-3 82 82)" d="M74 73h16v19H74z"/>
+  <path fill="var(--lit-surface)" stroke="var(--lit-argue)" stroke-width=".8" transform="rotate(7 100 83)" d="M92 74h16v18H92z"/>
+  <text transform="rotate(-6 46 82)" x="46" y="88" text-anchor="middle" style="font:700 15px var(--lit-font-body);fill:var(--lit-argue)">O</text>
+  <text transform="rotate(5 64 83)" x="64" y="88.5" text-anchor="middle" style="font:600 14px var(--lit-font-mono)">B</text>
+  <text transform="rotate(-3 82 82)" x="82" y="88" text-anchor="middle" style="font:italic 16px var(--lit-font-body);fill:var(--lit-argue)">E</text>
+  <text transform="rotate(7 100 83)" x="100" y="88.5" text-anchor="middle" style="font:800 13px var(--lit-font-ui)">Y</text>
+  </g>
+  <path class="specimen-wear" d="M28 24h16m-16 4h7M136 132v12h-12"/>
+  </g>
+  <path class="specimen-boundary" d="M172 14v152"/>
+  <path class="specimen-shadow" d="M212 60l10-8h86v106l-10 8h-86z"/>
+  <path fill="url(#specimen-v-steel)" d="M206 54l10-8h86l-10 8z"/>
+  <path fill="var(--lit-surface-2)" d="M292 54l10-8v108l-10 8z"/>
+  <path fill="url(#specimen-v-paper)" d="M206 54h86v108h-86z"/>
+  <path d="M206 54h86v108h-86zM206 54l10-8h86l-10 8M292 162l10-8V46"/>
+  <path fill="var(--lit-fg)" fill-opacity=".18" stroke="none" d="M212 60h74v44h-74z"/>
+  <path d="M212 60h74v44h-74zM212 112h74v42h-74zM239 132h20"/>
+  <path fill="var(--lit-surface)" d="M243 120h12v6h-12z"/>
+  <path d="M243 120h12v6h-12z"/>
+  <path fill="var(--lit-surface-2)" d="M286 60l-12 9.6v40L286 100z"/>
+  <path d="M286 60l-12 9.6v40L286 100z"/>
+  <g fill="var(--lit-surface)" stroke-width=".8">
+  <path d="M211 57h74v8h-74z"/><path d="M209.5 59h74v8h-74z"/><path d="M208 61h74v8h-74z"/>
+  </g>
+  <g transform="rotate(-6 240 64)">
+  <path fill="url(#specimen-v-paper)" d="M219 12h46v56h-46z"/>
+  <path d="M219 12h46v56h-46z"/>
+  <path class="teach" opacity=".7" d="M224 20h33M224 25h36M224 30h26M224 51h35M224 56h30"/>
+  <path class="argue" opacity=".7" d="M224 38h4m3 0h4m3 0h4m3 0h4"/>
+  <path class="work" opacity=".7" d="M224 62h20"/>
+  </g>
+  <g fill="var(--lit-surface)" stroke-width=".8">
+  <path d="M205 64h74v8h-74z"/><path d="M203.5 66h74v8h-74z"/>
+  </g>
+  <path fill="url(#specimen-v-paper)" d="M200 69.6h74v40h-74z"/>
+  <path d="M200 69.6h74v40h-74zM227 100h20"/>
+  <path fill="var(--lit-surface)" d="M223 77h28v13h-28z"/>
+  <path d="M223 77h28v13h-28z"/>
+  <text class="specimen-label" x="237" y="87" text-anchor="middle">KEPT</text>
+  <path class="argue" d="M150 64c12-24 34-40 58-44m-7-4 7 4-6 5"/>
+  <path class="specimen-wear" d="M210 150v8h8M288 58v-0"/>
+</svg>

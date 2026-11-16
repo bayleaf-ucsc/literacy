@@ -8,6 +8,7 @@
 //   <lit-argue>    thread 3, the mounting argument (with <lit-quote>)
 //   <lit-meta>     disciplines, further reading, as-of date
 //   <lit-ladder>   the argument's spine: Consumer to Operator
+//   <lit-specimen> an illustration from images/specimens/, pasted inline
 //
 // Explorables are separate custom elements (explorables/*.js) built on
 // js/kit.js. A <lit-explore spins="x-tokens-a x-tokens-b"> lazily imports
@@ -470,13 +471,33 @@ class LitScene extends HTMLElement {
         : this.getAttribute('act') || ''),
       el('h1', {}, this.getAttribute('title')),
       this.getAttribute('dek') ? el('p', { class: 'dek' }, this.getAttribute('dek')) : null);
-    const specimen = this.querySelector(':scope > .lit-specimen');
+    const specimen = this.querySelector(':scope > lit-specimen');
     if (specimen) head.prepend(specimen);
     this.prepend(head);
     if (progress.get(`${this.id}:argue-shown`)) this.setAttribute('data-argue-shown', '');
     // Teach gate: the work thread waits behind "I've read this".
     const firstWork = this.querySelector(':scope > lit-explore, :scope > lit-predict');
     if (firstWork && this.querySelector(':scope > lit-teach')) firstWork.before(el('lit-readcheck'));
+  }
+}
+
+// ---- <lit-specimen>: an illustration, pasted inline --------------------
+// Not an <img>: CSS can't reach inside an image, and inline the drawing takes
+// the theme's inks. width and height reserve its box before the file arrives,
+// as they do for <img>. A file that fails to load leaves the box empty.
+class LitSpecimen extends HTMLElement {
+  connectedCallback() {
+    if (this._built) return; this._built = true;
+    const w = this.getAttribute('width'), h = this.getAttribute('height');
+    if (w && h) this.style.aspectRatio = `${w} / ${h}`;
+    fetch(this.getAttribute('src'))
+      .then(r => r.ok ? r.text() : Promise.reject(r.status))
+      .then(text => {
+        const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+        if (doc.querySelector('parsererror')) return;
+        this.replaceChildren(document.importNode(doc.documentElement, true));
+      })
+      .catch(() => {});
   }
 }
 
@@ -653,6 +674,7 @@ class LitRoots extends HTMLElement {
 customElements.define('lit-readcheck', LitReadcheck);
 customElements.define('lit-stance', LitStance);
 customElements.define('lit-roots', LitRoots);
+customElements.define('lit-specimen', LitSpecimen);
 customElements.define('lit-scene', LitScene);
 customElements.define('lit-predict', LitPredict);
 customElements.define('lit-explore', LitExplore);

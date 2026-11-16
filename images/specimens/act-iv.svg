@@ -1,0 +1,25 @@
+<?xml-stylesheet href="../../css/theme.css"?>
+<?xml-stylesheet href="../../css/site.css"?>
+<!-- IV: the page is a set of instructions its author can actually revise. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="lit-specimen" viewBox="0 0 320 180" width="320" height="180" role="img" aria-labelledby="specimen-iv-title specimen-iv-desc" focusable="false">
+  <title id="specimen-iv-title">Authoring the instructions</title>
+  <desc id="specimen-iv-desc">A pencil revises a page headed AGENTS.md. A separate SKILL.md slip is pasted into the working layout with proofreader's marks.</desc>
+  <defs>
+    <linearGradient id="specimen-iv-paper" x2=".8" y2="1">
+      <stop class="specimen-paper-light"/><stop offset="1" class="specimen-paper-shade"/>
+    </linearGradient>
+  </defs>
+  <path class="specimen-shadow" d="M66 23h142v139H66z"/>
+  <path fill="url(#specimen-iv-paper)" d="M59 17h142v138H59z"/>
+  <text class="specimen-label" x="74" y="39">AGENTS.md</text>
+  <path class="teach" d="M74 51h110M74 61h97M74 71h107M74 81h72"/>
+  <path class="argue" d="M88 70h53m-26-3 6-10 6 10M44 57h8v28h-8"/>
+  <path fill="url(#specimen-iv-paper)" d="m99 98 120-9 4 53-120 9z"/>
+  <path class="specimen-tape" d="m102 93 26-2 2 12-26 2zm92-7 22-2 2 12-22 2z"/>
+  <text class="specimen-label" x="112" y="117" transform="rotate(-4 112 117)">SKILL.md</text>
+  <path class="work" d="m114 129 94-7m-94 15 64-5"/>
+  <path fill="url(#specimen-iv-paper)" d="m232 29 11 6-49 83-16 13 4-20z"/>
+  <path class="argue" d="m235 36-47 79m-5-5 10 7"/>
+  <path d="m178 131 7-6m45-93 11 6"/>
+  <path class="specimen-wear" d="M63 140v11h13M187 22h9v10m9 106 13-1"/>
+</svg>

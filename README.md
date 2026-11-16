@@ -153,9 +153,19 @@ These leaves participate in normal routing and Continue order. Contents headings
 link to them; lesson links still go straight to the lesson. They add no stances
 or exercise requirements.
 
-The scene shell moves each direct-child `.lit-specimen` into its header. The art
-stays with the authored content, uses the theme's existing inks, reserves its
-aspect ratio, and has no animation. Act illustrations have accessible titles and
+Each illustration is its own file in `images/specimens/`, opening with a comment
+on what it means, so `index.html` stays readable as prose. In the essay it appears
+as `<lit-specimen src="images/specimens/act-ii.svg" width="320" height="180">`,
+which fetches the file (same origin, like the stylesheets) and pastes the SVG
+inline. It isn't an `<img>` because CSS can't reach inside an image: inline, the
+drawing takes the `--lit-*` inks and the `.lit-specimen` classes in `site.css`,
+and follows light and dark. `width` and `height` reserve the box before the file
+arrives, as they do for `<img>`. Each file also links `theme.css` and `site.css`
+through `<?xml-stylesheet?>`, so opening it directly shows it in the site's
+colors.
+
+The scene shell moves each direct-child `<lit-specimen>` into its header. The art
+has no animation. Act illustrations have accessible titles and
 descriptions for their thematic content; the title and epilogue ornaments remain
 hidden from assistive technology.
 
