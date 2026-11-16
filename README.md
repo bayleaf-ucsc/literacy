@@ -130,6 +130,35 @@ Cloudflare Web Analytics for the `bayleaf.dev` zone is set to manual snippet
 installation (changed 2026-11-14), so no beacon is injected into these pages. The CSP
 would block one anyway, as a backstop for the no-telemetry promise.
 
+## Printer's specimens
+
+At Adam's direction, the inline SVGs in `index.html` trace a visual
+trajectory from institutional printing to zinemaking. Recognizable tools anchor
+each act: a lens over separate type blocks (I), galley proofs that each re-read
+everything above their one new line, so reading grows as 1 + 2 + … + n (II), a
+mix-and-match flip book whose client, provider and model strips turn separately
+(III), pencilled AGENTS.md and SKILL.md paste-up (IV), a cut-out-letter injection
+and a carbon copy filed as KEPT beyond a boundary (V), and, as a reward for going
+deep, the most detailed piece: a platen press inking all three thread colors,
+nameplate 127.0.0.1, beside an open first issue and drying sheets (VI).
+Theme-colored paper gradients, offset edges and sparse wear marks add depth
+without texture assets or filters.
+The title pairs a forme with a booklet; the epilogue
+offers several little editions. Prologue and Coda deliberately have no ornament.
+This is a visual metaphor, not a linear history of printing or a model diagram.
+
+Each act begins with a dedicated `<lit-scene interstitial>` at `#act-i` through
+`#act-vi`: a larger specimen, act number, title and an ungated Begin button.
+These leaves participate in normal routing and Continue order. Contents headings
+link to them; lesson links still go straight to the lesson. They add no stances
+or exercise requirements.
+
+The scene shell moves each direct-child `.lit-specimen` into its header. The art
+stays with the authored content, uses the theme's existing inks, reserves its
+aspect ratio, and has no animation. Act illustrations have accessible titles and
+descriptions for their thematic content; the title and epilogue ornaments remain
+hidden from assistive technology.
+
 ## Design spins
 
 `<lit-explore spins="x-tokens-a x-tokens-b">` shows a *design spin* toggle (an authoring aid)

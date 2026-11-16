@@ -93,6 +93,57 @@ lit-scene header .act {
 lit-scene header h1 { font-size: 2.1rem; line-height: 1.15; margin: 0.2rem 0 0.4rem; }
 lit-scene header .dek { color: var(--lit-muted); font-style: italic; margin: 0 0 1.5rem; }
 
+/* Printer's specimens: the same three inks move from the type case to the zine.
+   Inline SVG inherits the theme; explicit dimensions reserve space before paint. */
+.lit-specimen {
+  display: block; width: 12rem; max-width: 100%; height: auto;
+  margin: 0 0 1.25rem; color: var(--lit-fg);
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: square; stroke-linejoin: round;
+}
+.lit-specimen .teach { stroke: var(--lit-teach); }
+.lit-specimen .work { stroke: var(--lit-work); }
+.lit-specimen .argue { stroke: var(--lit-argue); }
+.specimen-paper-light { stop-color: var(--lit-surface); }
+.specimen-paper-shade { stop-color: var(--lit-border); }
+.lit-specimen .specimen-shadow { fill: var(--lit-fg); fill-opacity: 0.07; stroke: none; }
+.lit-specimen .specimen-wear { stroke: var(--lit-muted); opacity: 0.3; stroke-width: 0.7; }
+.lit-specimen .specimen-tape { fill: var(--lit-work); fill-opacity: 0.1; stroke: var(--lit-border); }
+.lit-specimen .specimen-boundary { stroke: var(--lit-muted); stroke-dasharray: 3 6; }
+.lit-specimen text { fill: var(--lit-fg); stroke: none; }
+.lit-specimen .specimen-type { font: 22px var(--lit-font-body); }
+.lit-specimen .specimen-label { font: 10px var(--lit-font-mono); letter-spacing: 0.04em; }
+.lit-specimen .specimen-sum { font: italic 12px var(--lit-font-body); }
+.lit-specimen .specimen-ink-teach, .lit-specimen .specimen-ink-work { font: 10px var(--lit-font-mono); }
+.lit-specimen .specimen-ink-teach { fill: var(--lit-teach); }
+.lit-specimen .specimen-ink-work { fill: var(--lit-work); }
+.lit-specimen .specimen-highlight { stroke: var(--lit-surface); stroke-opacity: 0.7; stroke-width: 1; }
+/* Act VI only: iron, bench wood and a sheen on fresh ink. Opacity lives on the
+   class because a class beats a stop-opacity attribute; the sheen sets its own. */
+.specimen-metal-light { stop-color: var(--lit-fg); stop-opacity: 0.1; }
+.specimen-metal-dark { stop-color: var(--lit-fg); stop-opacity: 0.38; }
+.specimen-wood-light { stop-color: var(--lit-argue-tint); }
+.specimen-wood-dark { stop-color: var(--lit-border); }
+.specimen-sheen { stop-color: var(--lit-surface); }
+.lit-titlecard .lit-specimen { width: 25rem; margin: 1.5rem 0; flex-shrink: 0; }
+
+/* Act-opening leaves: a pause in the reading sequence, with no extra gates. */
+lit-course[data-interstitial] lit-ladder { display: none; }
+/* A reading destination, not a control; Tab moves from here to Begin. */
+lit-scene > header h1[tabindex="-1"]:focus { outline: none; }
+lit-scene[interstitial][active] {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: calc(85svh - var(--lit-top-h, 3rem)); text-align: center;
+  padding: 2rem 0;
+}
+lit-scene[interstitial] > header { width: 100%; max-width: var(--lit-measure); }
+lit-scene[interstitial] .lit-specimen { width: 25rem; margin: 0 auto 3rem; }
+lit-scene[interstitial] header h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 500;
+  margin: 0.75rem auto 0; max-width: 15ch; text-wrap: balance;
+}
+lit-scene[interstitial] .lit-next { justify-content: center; margin: 3rem 0 0; }
+
 /* ---- Thread: teach ----------------------------------------------------- */
 lit-teach { display: block; }
 lit-teach h2 { font-size: 1.25rem; color: var(--lit-teach); margin: 1.75rem 0 0.25rem; }

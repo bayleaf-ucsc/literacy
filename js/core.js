@@ -400,13 +400,18 @@ class LitCourse extends HTMLElement {
       groups.at(-1).scenes.push(s);
     }
     const cur = this.current?.id;
-    this.toc.replaceChildren(...groups.flatMap(g => [
-      g.act ? el('h2', {}, g.act) : null,
-      el('ol', {}, ...g.scenes.map(s => el('li', {},
+    this.toc.replaceChildren(...groups.flatMap(g => {
+      const opening = g.scenes.find(s => s.hasAttribute('interstitial'));
+      return [
+      g.act ? el('h2', {}, opening
+        ? el('a', { href: '#' + opening.id, 'aria-current': opening.id === cur ? 'page' : false }, g.act)
+        : g.act) : null,
+      el('ol', {}, ...g.scenes.filter(s => !s.hasAttribute('interstitial')).map(s => el('li', {},
         el('a', { href: '#' + s.id, 'aria-current': s.id === cur ? 'page' : false, 'data-state': this.worked(s) ? 'worked' : 'open' },
           el('span', { class: 'mark', 'aria-hidden': 'true' }, this.worked(s) ? '●' : '○'),
           s.getAttribute('title'))))),
-    ]).filter(Boolean));
+      ];
+    }).filter(Boolean));
   }
 
   observeReveal(scene) {
@@ -421,6 +426,7 @@ class LitCourse extends HTMLElement {
   }
 
   route() {
+    const wasInterstitial = this.current?.hasAttribute('interstitial');
     const id = location.hash.slice(1);
     const scene = this.scenes.find(s => s.id === id) || this.scenes[0];
     this.scenes.forEach(s => s.toggleAttribute('active', s === scene));
@@ -428,6 +434,7 @@ class LitCourse extends HTMLElement {
     const wasBare = this.hasAttribute('data-bare');
     const bare = scene.getAttribute('chrome') === 'none';
     this.toggleAttribute('data-bare', bare);
+    this.toggleAttribute('data-interstitial', scene.hasAttribute('interstitial'));
     if (wasBare && !bare) {
       this.classList.add('lit-unfurl');
       setTimeout(() => this.classList.remove('lit-unfurl'), 1200);
@@ -443,6 +450,14 @@ class LitCourse extends HTMLElement {
     this.renderToc();
     this.updateNext();
     if (id) scrollTo({ top: 0 });
+    if (id && (scene.hasAttribute('interstitial') || wasInterstitial)) {
+      const heading = scene.querySelector('header h1');
+      heading?.setAttribute('tabindex', '-1');
+      // Let native fragment navigation finish before placing keyboard focus.
+      requestAnimationFrame(() => {
+        if (this.current === scene) heading?.focus({ preventScroll: true });
+      });
+    }
   }
 }
 
@@ -450,9 +465,13 @@ class LitScene extends HTMLElement {
   connectedCallback() {
     if (this._built) return; this._built = true;
     const head = el('header', {},
-      el('div', { class: 'act' }, this.getAttribute('act') || ''),
+      el('div', { class: 'act' }, this.hasAttribute('interstitial')
+        ? (this.getAttribute('act') || '').split(' · ')[0]
+        : this.getAttribute('act') || ''),
       el('h1', {}, this.getAttribute('title')),
       this.getAttribute('dek') ? el('p', { class: 'dek' }, this.getAttribute('dek')) : null);
+    const specimen = this.querySelector(':scope > .lit-specimen');
+    if (specimen) head.prepend(specimen);
     this.prepend(head);
     if (progress.get(`${this.id}:argue-shown`)) this.setAttribute('data-argue-shown', '');
     // Teach gate: the work thread waits behind "I've read this".
